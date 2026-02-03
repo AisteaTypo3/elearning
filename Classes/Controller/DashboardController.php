@@ -34,6 +34,7 @@ class DashboardController extends AbstractFrontendController
 
         $favoriteItems = [];
         $progressItems = [];
+        $finishedItems = [];
         foreach ($courses as $course) {
             $lessons = $this->lessonRepository->findPublishedByCourse($course);
             $lessonUids = [];
@@ -69,17 +70,22 @@ class DashboardController extends AbstractFrontendController
                 'nextLesson' => $nextLesson,
                 'isFavorite' => $isFavorite,
             ];
+            $isFinished = $total > 0 && $completed >= $total;
             if ($isFavorite) {
                 $favoriteItems[] = $item;
             }
-            if ($hasProgress) {
+            if ($hasProgress && !$isFinished) {
                 $progressItems[] = $item;
+            }
+            if ($isFinished) {
+                $finishedItems[] = $item;
             }
         }
 
         $this->view->assignMultiple([
             'favoriteItems' => $favoriteItems,
             'progressItems' => $progressItems,
+            'finishedItems' => $finishedItems,
         ]);
         $this->view->assignMultiple([
             'courseDetailPid' => $this->getConfiguredPid('courseDetailPid'),

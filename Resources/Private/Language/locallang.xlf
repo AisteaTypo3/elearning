@@ -36,6 +36,9 @@
       <trans-unit id="heading.in_progress">
         <source>In progress</source>
       </trans-unit>
+      <trans-unit id="heading.finished">
+        <source>Finished</source>
+      </trans-unit>
       <trans-unit id="heading.lessons">
         <source>Lessons</source>
       </trans-unit>
