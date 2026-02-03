@@ -84,16 +84,31 @@ If your default language is German, put German strings into `locallang.xlf` and 
 - Auto‑included via TypoScript (`page.includeCSS.elearning`)
 - The theme is Apple‑style (light, clean, blue accents) with modern cards
 
-## Optional Routing Enhancer Example
-If you want to use slugs in URLs, add a route enhancer in your site configuration:
+## Speaking URLs (Route Enhancers)
+Add these route enhancers in your site configuration (`config/sites/<site>/config.yaml`) to enable slugs:
 ```yaml
 routeEnhancers:
-  Elearning:
+  ElearningCourseDetail:
+    type: Extbase
+    extension: Elearning
+    plugin: CourseDetail
+    routes:
+      - routePath: '/courses/{course}'
+        _controller: 'Course::show'
+        _arguments:
+          course: course
+    defaultController: 'Course::show'
+    aspects:
+      course:
+        type: PersistedAliasMapper
+        tableName: tx_elearning_domain_model_course
+        routeFieldName: slug
+  ElearningLesson:
     type: Extbase
     extension: Elearning
     plugin: Lesson
     routes:
-      - routePath: '/lesson/{lesson}'
+      - routePath: '/{lesson}'
         _controller: 'Lesson::show'
         _arguments:
           lesson: lesson
@@ -104,6 +119,8 @@ routeEnhancers:
         tableName: tx_elearning_domain_model_lesson
         routeFieldName: slug
 ```
+
+Note: If your lesson page slug is `/lesson`, the route path should be `/{lesson}` so you get `/lesson/<slug>` without `/lesson/lesson/...`.
 
 ## Roadmap Ideas
 - Enrollment & access control per course
