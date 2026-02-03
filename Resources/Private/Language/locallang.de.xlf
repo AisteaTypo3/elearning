@@ -111,6 +111,10 @@
         <source>%d min</source>
         <target>%d Min</target>
       </trans-unit>
+      <trans-unit id="label.author">
+        <source>Author</source>
+        <target>Autor</target>
+      </trans-unit>
       <trans-unit id="label.video_url">
         <source>Video URL</source>
         <target>Video-URL</target>

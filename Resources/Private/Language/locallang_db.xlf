@@ -49,6 +49,9 @@
       <trans-unit id="tx_elearning_domain_model_course.categories">
         <source>Categories</source>
       </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.authors">
+        <source>Authors</source>
+      </trans-unit>
       <trans-unit id="tx_elearning_domain_model_course.published">
         <source>Published</source>
       </trans-unit>

@@ -84,6 +84,9 @@
       <trans-unit id="label.minutes">
         <source>%d min</source>
       </trans-unit>
+      <trans-unit id="label.author">
+        <source>Author</source>
+      </trans-unit>
       <trans-unit id="label.video_url">
         <source>Video URL</source>
       </trans-unit>

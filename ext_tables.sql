@@ -8,6 +8,7 @@ CREATE TABLE tx_elearning_domain_model_course (
   slug varchar(2048) NOT NULL DEFAULT '',
   teaser text,
   description text,
+  authors varchar(255) NOT NULL DEFAULT '',
   image int(11) unsigned NOT NULL DEFAULT '0',
   published tinyint(1) unsigned NOT NULL DEFAULT '0',
   sorting int(11) NOT NULL DEFAULT '0',

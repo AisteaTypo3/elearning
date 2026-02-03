@@ -28,7 +28,7 @@ return [
     'types' => [
         '1' => [
             'showitem' => '
-                title, slug, teaser, description, image, categories, published,
+                title, slug, teaser, description, image, authors, categories, published,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                 hidden, starttime, endtime,
                 --div--;Lessons, lessons
@@ -163,6 +163,15 @@ return [
                     'fieldname' => 'categories',
                 ],
                 'MM_opposite_field' => 'items',
+            ],
+        ],
+        'authors' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:tx_elearning_domain_model_course.authors',
+            'config' => [
+                'type' => 'input',
+                'size' => 50,
+                'eval' => 'trim',
             ],
         ],
         'published' => [

@@ -19,6 +19,8 @@ class Course extends AbstractEntity
 
     protected string $description = '';
 
+    protected string $authors = '';
+
     protected bool $published = false;
 
     protected int $sorting = 0;
@@ -80,6 +82,16 @@ class Course extends AbstractEntity
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getAuthors(): string
+    {
+        return $this->authors;
+    }
+
+    public function setAuthors(string $authors): void
+    {
+        $this->authors = $authors;
     }
 
     public function isPublished(): bool

@@ -21,6 +21,12 @@
                 <f:format.html>{course.description}</f:format.html>
             </div>
         </f:if>
+        <f:if condition="{course.authors}">
+            <div class="elearning-course-meta">
+                <span class="elearning-course-meta__label"><f:translate key="label.author" extensionName="Elearning" /></span>
+                <span class="elearning-course-meta__value">{course.authors}</span>
+            </div>
+        </f:if>
 
         <div class="elearning-card elearning-course-summary">
             <div>

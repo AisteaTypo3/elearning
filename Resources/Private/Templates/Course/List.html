@@ -50,6 +50,9 @@
                             <f:if condition="{course.teaser}">
                                 <p class="elearning-course-card__description">{course.teaser}</p>
                             </f:if>
+                            <f:if condition="{course.authors}">
+                                <p class="elearning-course-card__author">{course.authors}</p>
+                            </f:if>
                             <f:if condition="{courseProgress.{course.uid}}">
                                 <div class="elearning-course-card__progress">
                                     <div class="elearning-course-card__progress-bar">
