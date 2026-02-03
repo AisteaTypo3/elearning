@@ -8,6 +8,16 @@ plugin.tx_elearning {
     courseDetailPid = 0
     lessonPid = 0
     logoutPid = 9
+    notifications {
+      enabled = 1
+      progressOnLessonComplete = 1
+      courseComplete = 1
+      fromEmail = info.aister@aistea.me
+      fromName = Aistea
+      reminders {
+        enabled = 0
+      }
+    }
   }
 }
 

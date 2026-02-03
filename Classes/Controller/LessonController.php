@@ -7,6 +7,7 @@ namespace Vendor\Elearning\Controller;
 use Vendor\Elearning\Domain\Model\Lesson;
 use Vendor\Elearning\Domain\Model\Question;
 use Vendor\Elearning\Domain\Repository\LessonRepository;
+use Vendor\Elearning\Service\NotificationService;
 use Vendor\Elearning\Service\ProgressService;
 use TYPO3\CMS\Core\Error\Http\PageNotFoundException;
 use TYPO3\CMS\Core\Http\JsonResponse;
@@ -16,6 +17,7 @@ class LessonController extends AbstractFrontendController
     public function __construct(
         private readonly LessonRepository $lessonRepository,
         private readonly ProgressService $progressService,
+        private readonly NotificationService $notificationService,
         \TYPO3\CMS\Core\Context\Context $context
     ) {
         parent::__construct($context);
@@ -110,6 +112,7 @@ class LessonController extends AbstractFrontendController
 
         $feUserId = $this->getFrontendUserId();
         $this->progressService->markCompleted($feUserId, $lesson);
+        $this->notifyProgressUpdate($feUserId, $lesson);
 
         $pageUid = $this->getConfiguredPid('lessonPid');
         return $this->redirect('show', 'Lesson', null, ['lesson' => $lesson], $pageUid);
@@ -137,6 +140,7 @@ class LessonController extends AbstractFrontendController
         if ($allCorrect) {
             $this->progressService->markQuizPassed($feUserId, $lesson);
             $this->addFlashMessage($this->translate('messages.quiz_passed'));
+            $this->notifyProgressUpdate($feUserId, $lesson);
         } else {
             $this->progressService->markQuizFailed($feUserId, $lesson);
             $this->addFlashMessage($this->translate('messages.quiz_failed'), '', \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR);
@@ -158,6 +162,7 @@ class LessonController extends AbstractFrontendController
 
         $feUserId = $this->getFrontendUserId();
         $this->progressService->markCompleted($feUserId, $lesson);
+        $this->notifyProgressUpdate($feUserId, $lesson);
 
         return new JsonResponse(['ok' => true]);
     }
@@ -212,5 +217,44 @@ class LessonController extends AbstractFrontendController
         }
 
         return '';
+    }
+
+    private function notifyProgressUpdate(int $feUserId, Lesson $lesson): void
+    {
+        $settings = is_array($this->settings['notifications'] ?? null) ? $this->settings['notifications'] : [];
+        $siteSettings = $this->getSiteSetting('elearning.notifications', []);
+        if (is_array($siteSettings)) {
+            $settings = array_replace_recursive($siteSettings, $settings);
+        }
+
+        $courseProgress = $this->computeCourseProgress($feUserId, $lesson);
+        $this->notificationService->sendLessonCompleted($feUserId, $lesson, $courseProgress, $settings);
+    }
+
+    private function computeCourseProgress(int $feUserId, Lesson $lesson): array
+    {
+        $course = $lesson->getCourse();
+        if ($course === null) {
+            return [
+                'total' => 0,
+                'completed' => 0,
+                'percent' => 0,
+            ];
+        }
+
+        $lessonUids = [];
+        foreach ($this->lessonRepository->findPublishedByCourse($course) as $item) {
+            $lessonUids[] = $item->getUid();
+        }
+
+        $completedLessonUids = $this->progressService->getCompletedLessonUids($feUserId, $lessonUids);
+        $total = count($lessonUids);
+        $completed = count($completedLessonUids);
+
+        return [
+            'total' => $total,
+            'completed' => $completed,
+            'percent' => $total > 0 ? (int)round(($completed / $total) * 100) : 0,
+        ];
     }
 }

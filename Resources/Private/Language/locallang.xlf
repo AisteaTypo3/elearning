@@ -132,6 +132,24 @@
       <trans-unit id="messages.lesson_completed">
         <source>Lesson completed.</source>
       </trans-unit>
+      <trans-unit id="email.subject.lesson_completed">
+        <source>Lesson completed: %s</source>
+      </trans-unit>
+      <trans-unit id="email.body.lesson_completed">
+        <source>Hello %s, you completed the lesson "%s" in "%s". Course progress: %s%%.</source>
+      </trans-unit>
+      <trans-unit id="email.subject.course_completed">
+        <source>Course completed: %s</source>
+      </trans-unit>
+      <trans-unit id="email.body.course_completed">
+        <source>Congratulations %s, you completed the course "%s".</source>
+      </trans-unit>
+      <trans-unit id="email.subject.reminder">
+        <source>Keep learning</source>
+      </trans-unit>
+      <trans-unit id="email.body.reminder">
+        <source>Hello %s, you have %s unfinished lesson(s). Continue where you left off.</source>
+      </trans-unit>
       <trans-unit id="errors.course_not_published">
         <source>Course not published</source>
       </trans-unit>
