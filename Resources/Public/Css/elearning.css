@@ -1,0 +1,617 @@
+:root {
+  --elearning-text: #0f1115;
+  --elearning-muted: #5c6068;
+  --elearning-accent: #0a84ff;
+  --elearning-accent-soft: rgba(10, 132, 255, 0.18);
+  --elearning-success: #34c759;
+  --elearning-success-soft: rgba(52, 199, 89, 0.18);
+  --elearning-warning: #ff9f0a;
+  --elearning-warning-soft: rgba(255, 159, 10, 0.18);
+  --elearning-error: #ff453a;
+  --elearning-error-soft: rgba(255, 69, 58, 0.18);
+  --elearning-cream: #f5f6f8;
+  --elearning-cream-2: #eef0f3;
+  --elearning-card-border: #d6d9df;
+  --elearning-progress-track: #e6e9ef;
+  --elearning-shadow: rgba(0, 0, 0, 0.08);
+  --elearning-nav-bg: rgba(245, 246, 248, 0.9);
+  --elearning-nav-border: rgba(214, 217, 223, 0.7);
+  --elearning-nav-icon: #0a84ff;
+}
+
+.elearning {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  font-family: "SF Pro Text", "SF Pro Display", -apple-system, "Helvetica Neue", "Segoe UI", sans-serif;
+  color: var(--elearning-text);
+  background: transparent;
+}
+
+.elearning-page {
+  padding-top: 4.75rem;
+  padding-left: 5.5rem;
+}
+
+.elearning-topnav {
+  position: sticky;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  margin-left: 0.75rem;
+  width: fit-content;
+  background: var(--elearning-nav-bg);
+  border: 1px solid var(--elearning-nav-border);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.elearning-topnav--left {
+  top: 75px;
+  left: 0;
+}
+
+.elearning-topnav__link {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  transition: transform 0.15s ease, background 0.15s ease;
+  position: relative;
+}
+
+.elearning-topnav__link:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.elearning-topnav__label {
+  position: absolute;
+  left: 54px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.98);
+  opacity: 0;
+  pointer-events: none;
+  background: #ffffff;
+  color: var(--elearning-text);
+  border: 1px solid var(--elearning-card-border);
+  box-shadow: 0 10px 24px rgba(15, 17, 21, 0.12);
+  padding: 0.4rem 0.65rem;
+  border-radius: 10px;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.elearning-topnav__link:hover .elearning-topnav__label,
+.elearning-topnav__link:focus-visible .elearning-topnav__label {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.elearning-icon {
+  width: 20px;
+  height: 20px;
+  fill: var(--elearning-nav-icon);
+}
+
+.elearning h1,
+.elearning h2,
+.elearning h3 {
+  font-family: "SF Pro Display", "SF Pro Text", -apple-system, "Helvetica Neue", "Segoe UI", sans-serif;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
+}
+
+.elearning .elearning-card {
+  border: 1px solid var(--elearning-card-border);
+  border-radius: 18px;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1rem;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(15, 17, 21, 0.08);
+}
+
+.elearning .is-hidden {
+  display: none;
+}
+
+.elearning iframe {
+  border-radius: 12px;
+  margin-top: 0.5rem;
+}
+
+.elearning .elearning-card p strong {
+  color: var(--elearning-accent);
+}
+
+.elearning .elearning-breadcrumbs {
+  font-size: 0.95rem;
+  color: var(--elearning-muted);
+  margin-bottom: 1rem;
+}
+
+.elearning .elearning-progress {
+  background: var(--elearning-progress-track);
+  border-radius: 999px;
+  overflow: hidden;
+  height: 10px;
+  margin: 0.5rem 0 1rem;
+}
+
+.elearning .elearning-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--elearning-accent);
+}
+
+.elearning .elearning-meta {
+  color: var(--elearning-muted);
+  font-size: 0.95rem;
+}
+
+.elearning .elearning-course-summary {
+  display: grid;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.elearning .elearning-lesson-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.elearning .elearning-lesson-card {
+  border: 1px solid var(--elearning-card-border);
+  border-radius: 16px;
+  padding: 1rem;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 17, 21, 0.08);
+}
+
+.elearning .elearning-lesson-index {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--elearning-muted);
+  margin-bottom: 0.35rem;
+}
+
+.elearning .elearning-lesson-hero {
+  border: 1px solid var(--elearning-card-border);
+  background: linear-gradient(180deg, #ffffff, var(--elearning-cream-2));
+}
+
+.elearning .elearning-video-frame {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  box-shadow: 0 12px 24px var(--elearning-shadow);
+}
+
+.elearning-messages {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.elearning-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: #ffffff;
+  border: 1px solid var(--elearning-card-border);
+  color: var(--elearning-text);
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  box-shadow: 0 16px 32px rgba(15, 17, 21, 0.18);
+  transform: translateY(12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  z-index: 200;
+}
+
+.elearning-toast.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.elearning .elearning-message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--elearning-card-border);
+  background: #ffffff;
+}
+
+.elearning .elearning-message__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  background: var(--elearning-accent);
+  color: #fff;
+}
+
+.elearning .elearning-message[data-severity="0"] {
+  border-color: var(--elearning-success-soft);
+  background: #f4fbf7;
+}
+
+.elearning .elearning-message[data-severity="0"] .elearning-message__icon {
+  background: var(--elearning-success);
+}
+
+.elearning .elearning-message[data-severity="3"] {
+  border-color: var(--elearning-warning-soft);
+  background: #fff7ee;
+}
+
+.elearning .elearning-message[data-severity="3"] .elearning-message__icon {
+  background: var(--elearning-warning);
+}
+
+.elearning .elearning-message[data-severity="4"] {
+  border-color: var(--elearning-error-soft);
+  background: #fff2f1;
+}
+
+.elearning .elearning-message[data-severity="4"] .elearning-message__icon {
+  background: var(--elearning-error);
+}
+
+.elearning .elearning-quiz-card {
+  border: 1px dashed var(--elearning-accent-soft);
+  background: #f5f9ff;
+}
+
+.elearning .elearning-quiz-question {
+  margin-bottom: 1rem;
+}
+
+.elearning .elearning-quiz-answer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.elearning .elearning-quiz-answer:hover {
+  background: rgba(10, 132, 255, 0.08);
+}
+
+.elearning .elearning-success-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--elearning-success-soft);
+  background: #f3fff6;
+}
+
+.elearning .elearning-success-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--elearning-success);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.elearning .elearning-lesson-layout {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr) 300px;
+}
+
+.elearning-course-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.elearning-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.elearning-filter__chip {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--elearning-card-border);
+  text-decoration: none;
+  color: var(--elearning-text);
+  background: #ffffff;
+  font-size: 0.9rem;
+}
+
+.elearning-filter__chip.is-active {
+  background: var(--elearning-accent);
+  color: #ffffff;
+  border-color: var(--elearning-accent);
+}
+
+.elearning-pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+  margin: 1.5rem 0 0.5rem;
+  flex-wrap: wrap;
+}
+
+.elearning-pagination__pages {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.elearning-pagination__page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--elearning-card-border);
+  text-decoration: none;
+  color: var(--elearning-text);
+  background: #ffffff;
+  font-size: 0.9rem;
+}
+
+.elearning-pagination__page.is-active {
+  background: var(--elearning-accent);
+  color: #ffffff;
+  border-color: var(--elearning-accent);
+}
+
+.elearning .elearning-course-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--elearning-card-border);
+  background: #ffffff;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.elearning .elearning-course-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: var(--elearning-accent-soft);
+  box-shadow: 0 18px 36px rgba(15, 17, 21, 0.14);
+}
+
+.elearning .elearning-course-card h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.elearning .elearning-course-card__media {
+  border-radius: 0;
+  overflow: hidden;
+  background: #e9edf3;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.elearning .elearning-course-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.elearning .elearning-course-card__body {
+  padding: 0.85rem 0.95rem 1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.elearning .elearning-course-card__tag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--elearning-accent-soft);
+  color: var(--elearning-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.elearning .elearning-course-card__title {
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.elearning .elearning-course-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.elearning .elearning-course-card__title a:hover {
+  text-decoration: underline;
+}
+
+.elearning .elearning-course-card__description {
+  margin: 0;
+  color: var(--elearning-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.elearning .elearning-course-card__progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.elearning .elearning-course-card__progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--elearning-progress-track);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.elearning .elearning-course-card__progress-bar span {
+  display: block;
+  height: 100%;
+  background: var(--elearning-accent);
+}
+
+.elearning .elearning-course-card__progress-meta {
+  font-size: 0.78rem;
+  color: var(--elearning-muted);
+  min-width: 52px;
+  text-align: right;
+}
+
+.elearning .elearning-profile-card {
+  display: grid;
+  gap: 0.35rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.12), rgba(52, 199, 89, 0.08));
+}
+
+.elearning .elearning-profile-card__title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--elearning-muted);
+}
+
+.elearning .elearning-profile-card__name {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.elearning .elearning-profile-card__email {
+  color: var(--elearning-muted);
+}
+
+.elearning .elearning-profile-card__email--empty {
+  opacity: 0.7;
+}
+
+@media (max-width: 720px) {
+  .elearning-course-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+.elearning .elearning-lesson-sidebar {
+  position: sticky;
+  top: 90px;
+  align-self: start;
+}
+
+.elearning .elearning-lesson-list ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.elearning .elearning-lesson-list li {
+  padding: 0.6rem 0.6rem;
+  border-bottom: 1px solid var(--elearning-card-border);
+  border-radius: 10px;
+  margin-bottom: 0.4rem;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(15, 17, 21, 0.06);
+}
+
+.elearning .elearning-lesson-list li.is-active {
+  background: rgba(10, 132, 255, 0.08);
+  border: 1px solid var(--elearning-accent-soft);
+}
+
+.elearning .elearning-lesson-list li.is-done a::after {
+  content: "✓";
+  margin-left: 0.5rem;
+  color: var(--elearning-accent);
+  font-weight: 700;
+}
+
+.elearning .elearning-lesson-list a {
+  text-decoration: none;
+  color: var(--elearning-text);
+  font-weight: 600;
+}
+
+.elearning .elearning-lesson-list li:hover {
+  background: rgba(10, 132, 255, 0.06);
+}
+
+@media (max-width: 900px) {
+  .elearning .elearning-lesson-layout {
+    grid-template-columns: 1fr;
+  }
+  .elearning .elearning-lesson-sidebar {
+    position: static;
+  }
+}
+
+.elearning .elearning-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  margin-right: 0;
+}
+
+.elearning .elearning-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--elearning-accent);
+  background: var(--elearning-accent);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  line-height: 1;
+  white-space: nowrap;
+  max-height: 50px;
+  max-width: fit-content;
+}
+
+.elearning .elearning-button--ghost {
+  background: #ffffff;
+  color: var(--elearning-text);
+  border: 1px solid var(--elearning-card-border);
+}
+.elearning-topnav__link--logout .elearning-icon {
+  margin-left: -3px;
+}

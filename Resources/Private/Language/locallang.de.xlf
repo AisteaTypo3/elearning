@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2">
+  <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2026-02-03T00:00:00Z">
+    <header/>
+    <body>
+      <trans-unit id="layout.title">
+        <source>Elearning</source>
+        <target>E-Learning</target>
+      </trans-unit>
+      <trans-unit id="nav.dashboard">
+        <source>Dashboard</source>
+        <target>Dashboard</target>
+      </trans-unit>
+      <trans-unit id="nav.courses">
+        <source>Courses</source>
+        <target>Kurse</target>
+      </trans-unit>
+      <trans-unit id="nav.logout">
+        <source>Logout</source>
+        <target>Abmelden</target>
+      </trans-unit>
+      <trans-unit id="profile.title">
+        <source>Profile</source>
+        <target>Profil</target>
+      </trans-unit>
+      <trans-unit id="breadcrumbs.dashboard">
+        <source>Dashboard</source>
+        <target>Dashboard</target>
+      </trans-unit>
+      <trans-unit id="breadcrumbs.courses">
+        <source>Courses</source>
+        <target>Kurse</target>
+      </trans-unit>
+      <trans-unit id="heading.courses">
+        <source>Courses</source>
+        <target>Kurse</target>
+      </trans-unit>
+      <trans-unit id="heading.my_progress">
+        <source>My Progress</source>
+        <target>Mein Fortschritt</target>
+      </trans-unit>
+      <trans-unit id="heading.lessons">
+        <source>Lessons</source>
+        <target>Lektionen</target>
+      </trans-unit>
+      <trans-unit id="empty.courses">
+        <source>No courses available.</source>
+        <target>Keine Kurse verfügbar.</target>
+      </trans-unit>
+      <trans-unit id="pagination.label">
+        <source>Pagination</source>
+        <target>Seitennavigation</target>
+      </trans-unit>
+      <trans-unit id="pagination.prev">
+        <source>Previous</source>
+        <target>Zurück</target>
+      </trans-unit>
+      <trans-unit id="pagination.next">
+        <source>Next</source>
+        <target>Weiter</target>
+      </trans-unit>
+      <trans-unit id="filter.all">
+        <source>All</source>
+        <target>Alle</target>
+      </trans-unit>
+      <trans-unit id="empty.lessons">
+        <source>No lessons published yet.</source>
+        <target>Noch keine Lektionen veröffentlicht.</target>
+      </trans-unit>
+      <trans-unit id="progress.title">
+        <source>Progress</source>
+        <target>Fortschritt</target>
+      </trans-unit>
+      <trans-unit id="progress.course_summary">
+        <source>%d / %d completed (%d%%)</source>
+        <target>%d / %d abgeschlossen (%d%%)</target>
+      </trans-unit>
+      <trans-unit id="progress.lessons_summary">
+        <source>%d / %d lessons completed (%d%%)</source>
+        <target>%d / %d Lektionen abgeschlossen (%d%%)</target>
+      </trans-unit>
+      <trans-unit id="button.start_course">
+        <source>Start course</source>
+        <target>Kurs starten</target>
+      </trans-unit>
+      <trans-unit id="button.open_lesson">
+        <source>Open lesson</source>
+        <target>Lektion öffnen</target>
+      </trans-unit>
+      <trans-unit id="button.go_to_course">
+        <source>Go to course</source>
+        <target>Zum Kurs</target>
+      </trans-unit>
+      <trans-unit id="button.continue">
+        <source>Continue</source>
+        <target>Weiter</target>
+      </trans-unit>
+      <trans-unit id="button.submit_quiz">
+        <source>Submit quiz</source>
+        <target>Quiz senden</target>
+      </trans-unit>
+      <trans-unit id="button.mark_completed">
+        <source>Mark as completed</source>
+        <target>Als abgeschlossen markieren</target>
+      </trans-unit>
+      <trans-unit id="label.lesson_index">
+        <source>Lesson %d</source>
+        <target>Lektion %d</target>
+      </trans-unit>
+      <trans-unit id="label.minutes">
+        <source>%d min</source>
+        <target>%d Min</target>
+      </trans-unit>
+      <trans-unit id="label.video_url">
+        <source>Video URL</source>
+        <target>Video-URL</target>
+      </trans-unit>
+      <trans-unit id="label.download_file">
+        <source>Download file</source>
+        <target>Datei herunterladen</target>
+      </trans-unit>
+      <trans-unit id="label.link">
+        <source>Link</source>
+        <target>Link</target>
+      </trans-unit>
+      <trans-unit id="quiz.title">
+        <source>Quiz</source>
+        <target>Quiz</target>
+      </trans-unit>
+      <trans-unit id="quiz.passed_message">
+        <source>Congratulations! Quiz passed.</source>
+        <target>Glückwunsch! Quiz bestanden.</target>
+      </trans-unit>
+      <trans-unit id="lesson.completed_label">
+        <source>Completed</source>
+        <target>Abgeschlossen</target>
+      </trans-unit>
+      <trans-unit id="nav.back_to_course">
+        <source>Back to course</source>
+        <target>Zurück zum Kurs</target>
+      </trans-unit>
+      <trans-unit id="nav.previous">
+        <source>Previous</source>
+        <target>Zurück</target>
+      </trans-unit>
+      <trans-unit id="nav.next">
+        <source>Next</source>
+        <target>Weiter</target>
+      </trans-unit>
+      <trans-unit id="lesson.list_title">
+        <source>Lessons</source>
+        <target>Lektionen</target>
+      </trans-unit>
+      <trans-unit id="messages.access_denied">
+        <source>Access denied.</source>
+        <target>Zugriff verweigert.</target>
+      </trans-unit>
+      <trans-unit id="messages.quiz_required">
+        <source>Please complete the quiz to finish this lesson.</source>
+        <target>Bitte schließe das Quiz ab, um die Lektion zu beenden.</target>
+      </trans-unit>
+      <trans-unit id="messages.quiz_revisit_required">
+        <source>Please revisit the lesson before attempting the quiz again.</source>
+        <target>Bitte sieh dir die Lektion erneut an, bevor du das Quiz wiederholst.</target>
+      </trans-unit>
+      <trans-unit id="messages.quiz_passed">
+        <source>Quiz passed. Lesson completed.</source>
+        <target>Quiz bestanden. Lektion abgeschlossen.</target>
+      </trans-unit>
+      <trans-unit id="messages.quiz_failed">
+        <source>Quiz not passed. Please review the lesson and try again.</source>
+        <target>Quiz nicht bestanden. Bitte sieh dir die Lektion erneut an und versuche es danach noch einmal.</target>
+      </trans-unit>
+      <trans-unit id="messages.lesson_completed">
+        <source>Lesson completed.</source>
+        <target>Lektion abgeschlossen.</target>
+      </trans-unit>
+      <trans-unit id="errors.course_not_published">
+        <source>Course not published</source>
+        <target>Kurs nicht veröffentlicht</target>
+      </trans-unit>
+      <trans-unit id="errors.lesson_not_published">
+        <source>Lesson not published</source>
+        <target>Lektion nicht veröffentlicht</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

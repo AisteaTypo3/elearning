@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2">
+  <file source-language="en" datatype="plaintext" original="messages" date="2026-02-03T00:00:00Z">
+    <header/>
+    <body>
+      <trans-unit id="plugin.courses.title">
+        <source>Courses (Catalog)</source>
+      </trans-unit>
+      <trans-unit id="plugin.courses.description">
+        <source>Lists published courses</source>
+      </trans-unit>
+      <trans-unit id="plugin.coursedetail.title">
+        <source>Course Detail</source>
+      </trans-unit>
+      <trans-unit id="plugin.coursedetail.description">
+        <source>Shows a course with its lessons</source>
+      </trans-unit>
+      <trans-unit id="plugin.lesson.title">
+        <source>Lesson View</source>
+      </trans-unit>
+      <trans-unit id="plugin.lesson.description">
+        <source>Shows a lesson with next/previous navigation</source>
+      </trans-unit>
+      <trans-unit id="plugin.dashboard.title">
+        <source>Dashboard</source>
+      </trans-unit>
+      <trans-unit id="plugin.dashboard.description">
+        <source>Shows learning progress per course</source>
+      </trans-unit>
+
+      <trans-unit id="tx_elearning_domain_model_course">
+        <source>Course</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.title">
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.slug">
+        <source>Slug</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.teaser">
+        <source>Teaser</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.description">
+        <source>Description</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.image">
+        <source>Image</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.categories">
+        <source>Categories</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.published">
+        <source>Published</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course.lessons">
+        <source>Lessons</source>
+      </trans-unit>
+
+      <trans-unit id="tx_elearning_domain_model_lesson">
+        <source>Lesson</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.course">
+        <source>Course</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.title">
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.slug">
+        <source>Slug</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.content">
+        <source>Content</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.type">
+        <source>Type</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.video_url">
+        <source>Video URL</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.file">
+        <source>File</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.link_url">
+        <source>Link URL</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.duration_minutes">
+        <source>Duration (minutes)</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.published">
+        <source>Published</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_lesson.questions">
+        <source>Quiz questions</source>
+      </trans-unit>
+
+      <trans-unit id="tx_elearning_domain_model_question">
+        <source>Question</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_question.lesson">
+        <source>Lesson</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_question.question_text">
+        <source>Question</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_question.answers">
+        <source>Answers</source>
+      </trans-unit>
+
+      <trans-unit id="tx_elearning_domain_model_answer">
+        <source>Answer</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_answer.question">
+        <source>Question</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_answer.title">
+        <source>Answer text</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_answer.is_correct">
+        <source>Correct answer</source>
+      </trans-unit>
+
+      <trans-unit id="tx_elearning_domain_model_progress">
+        <source>Progress</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_progress.fe_user">
+        <source>Frontend User</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_progress.lesson">
+        <source>Lesson</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_progress.completed">
+        <source>Completed</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_progress.completed_at">
+        <source>Completed at</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_progress.quiz_passed">
+        <source>Quiz passed</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_progress.quiz_passed_at">
+        <source>Quiz passed at</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_progress.last_quiz_failed_at">
+        <source>Last quiz failed at</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_progress.last_visited_at">
+        <source>Last visited at</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

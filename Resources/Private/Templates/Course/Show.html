@@ -1,0 +1,71 @@
+<f:layout name="Default" />
+
+<f:section name="Main">
+    <div class="elearning">
+        <div class="elearning-breadcrumbs">
+            <f:if condition="{coursesPid}">
+                <f:link.page pageUid="{coursesPid}"><f:translate key="breadcrumbs.courses" extensionName="Elearning" /></f:link.page> &raquo;
+            </f:if>
+            {course.title}
+        </div>
+        <h1>{course.title}</h1>
+
+        <f:if condition="{course.image}">
+            <div>
+                <f:image image="{course.image}" alt="{course.title}" maxWidth="640" />
+            </div>
+        </f:if>
+
+        <f:if condition="{course.description}">
+            <div class="elearning-card">
+                <f:format.html>{course.description}</f:format.html>
+            </div>
+        </f:if>
+
+        <div class="elearning-card elearning-course-summary">
+            <div>
+                <strong><f:translate key="progress.title" extensionName="Elearning" /></strong><br />
+                <span class="elearning-meta">
+                    <f:translate key="progress.course_summary" arguments="{0: courseProgress.completed, 1: courseProgress.total, 2: courseProgress.percent}" extensionName="Elearning" />
+                </span>
+            </div>
+            <div class="elearning-progress">
+                <span style="width: {courseProgress.percent}%"></span>
+            </div>
+            <f:if condition="{firstLesson}">
+                <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: firstLesson}" class="elearning-button">
+                    <f:translate key="button.start_course" extensionName="Elearning" />
+                </f:link.action>
+            </f:if>
+        </div>
+
+        <h2><f:translate key="heading.lessons" extensionName="Elearning" /></h2>
+        <f:if condition="{lessons -> f:count()}">
+            <div class="elearning-lesson-grid">
+                <f:for each="{lessons}" as="lesson" iteration="iter">
+                    <article class="elearning-lesson-card">
+                        <div class="elearning-lesson-index">
+                            <f:translate key="label.lesson_index" arguments="{0: iter.cycle}" extensionName="Elearning" />
+                        </div>
+                        <h3>
+                            <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}">
+                                {lesson.title}
+                            </f:link.action>
+                        </h3>
+                        <f:if condition="{lesson.durationMinutes}">
+                            <div class="elearning-meta">
+                                <f:translate key="label.minutes" arguments="{0: lesson.durationMinutes}" extensionName="Elearning" />
+                            </div>
+                        </f:if>
+                        <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" class="elearning-button elearning-button--ghost">
+                            <f:translate key="button.open_lesson" extensionName="Elearning" />
+                        </f:link.action>
+                    </article>
+                </f:for>
+            </div>
+        </f:if>
+        <f:if condition="{lessons -> f:count()} == 0">
+            <p><f:translate key="empty.lessons" extensionName="Elearning" /></p>
+        </f:if>
+    </div>
+</f:section>

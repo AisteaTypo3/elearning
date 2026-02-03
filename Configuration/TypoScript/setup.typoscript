@@ -1,0 +1,17 @@
+plugin.tx_elearning {
+  view {
+    templateRootPaths.0 = EXT:elearning/Resources/Private/Templates/
+    partialRootPaths.0 = EXT:elearning/Resources/Private/Partials/
+    layoutRootPaths.0 = EXT:elearning/Resources/Private/Layouts/
+  }
+  settings {
+    courseDetailPid = 0
+    lessonPid = 0
+    logoutPid = 9
+  }
+}
+
+page.includeCSS.elearning = EXT:elearning/Resources/Public/Css/elearning.css
+page.includeJSFooter.elearningVideo = EXT:elearning/Resources/Public/Js/elearning-video.js
+page.includeJSFooterExternal.elearningYoutube = https://www.youtube.com/iframe_api
+page.includeJSFooterExternal.elearningVimeo = https://player.vimeo.com/api/player.js

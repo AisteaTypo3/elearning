@@ -1,0 +1,27 @@
+{
+  "name": "vendor/elearning",
+  "type": "typo3-cms-extension",
+  "description": "Simple e-learning extension for TYPO3 v13",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Vendor",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "typo3/cms-core": "^13.4",
+    "typo3/cms-extbase": "^13.4",
+    "typo3/cms-fluid": "^13.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vendor\\Elearning\\": "Classes/"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "elearning"
+    }
+  }
+}

@@ -1,0 +1,95 @@
+<f:layout name="Default" />
+
+<f:section name="Main">
+    <div class="elearning">
+        <div class="elearning-breadcrumbs">
+            <f:if condition="{dashboardPid}">
+                <f:link.page pageUid="{dashboardPid}"><f:translate key="breadcrumbs.dashboard" extensionName="Elearning" /></f:link.page> &raquo;
+            </f:if>
+            <f:translate key="breadcrumbs.courses" extensionName="Elearning" />
+        </div>
+        <h1><f:translate key="heading.courses" extensionName="Elearning" /></h1>
+
+        <f:if condition="{categories -> f:count()}">
+            <div class="elearning-filter">
+                <f:link.action action="list" controller="Course" pluginName="Courses" class="elearning-filter__chip {f:if(condition: selectedCategoryId == 0, then: 'is-active', else: '')}">
+                    <f:translate key="filter.all" extensionName="Elearning" />
+                </f:link.action>
+                <f:for each="{categories}" as="category">
+                    <f:link.action action="list" controller="Course" pluginName="Courses" arguments="{category: category.uid}" class="elearning-filter__chip {f:if(condition: category.uid == selectedCategoryId, then: 'is-active', else: '')}">
+                        {category.title}
+                    </f:link.action>
+                </f:for>
+            </div>
+        </f:if>
+
+        <f:if condition="{courses -> f:count()}">
+            <div class="elearning-course-grid">
+                <f:for each="{courses}" as="course">
+                    <article class="elearning-card elearning-course-card">
+                        <f:if condition="{course.image}">
+                            <div class="elearning-course-card__media">
+                                <f:image image="{course.image}" alt="{course.title}" maxWidth="320" />
+                            </div>
+                        </f:if>
+                        <div class="elearning-course-card__body">
+                            <f:if condition="{course.categories -> f:count()}">
+                                <div class="elearning-course-card__tag">
+                                    <f:for each="{course.categories}" as="category" iteration="iter">
+                                        <f:if condition="{iter.isFirst}">
+                                            {category.title}
+                                        </f:if>
+                                    </f:for>
+                                </div>
+                            </f:if>
+                            <h2 class="elearning-course-card__title">
+                                <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}">
+                                    {course.title}
+                                </f:link.action>
+                            </h2>
+                            <f:if condition="{course.teaser}">
+                                <p class="elearning-course-card__description">{course.teaser}</p>
+                            </f:if>
+                            <f:if condition="{courseProgress.{course.uid}}">
+                                <div class="elearning-course-card__progress">
+                                    <div class="elearning-course-card__progress-bar">
+                                        <span style="width: {courseProgress.{course.uid}.percent}%"></span>
+                                    </div>
+                                    <div class="elearning-course-card__progress-meta">
+                                        {courseProgress.{course.uid}.completed}/{courseProgress.{course.uid}.total}
+                                    </div>
+                                </div>
+                            </f:if>
+                        </div>
+                    </article>
+                </f:for>
+            </div>
+        </f:if>
+
+        <f:if condition="{courses -> f:count()} == 0">
+            <p><f:translate key="empty.courses" extensionName="Elearning" /></p>
+        </f:if>
+
+        <f:if condition="{paginator.numberOfPages} > 1">
+            <nav class="elearning-pagination" aria-label="{f:translate(key: 'pagination.label', extensionName: 'Elearning')}">
+                <f:if condition="{prevPage}">
+                    <f:link.action action="list" controller="Course" pluginName="Courses" arguments="{page: prevPage, category: selectedCategoryId}" class="elearning-button elearning-button--ghost">
+                        <f:translate key="pagination.prev" extensionName="Elearning" />
+                    </f:link.action>
+                </f:if>
+                <div class="elearning-pagination__pages">
+                    <f:for each="{pagination.allPageNumbers}" as="pageNumber">
+                        <f:link.action action="list" controller="Course" pluginName="Courses" arguments="{page: pageNumber, category: selectedCategoryId}" class="elearning-pagination__page {f:if(condition: pageNumber == currentPage, then: 'is-active', else: '')}">
+                            {pageNumber}
+                        </f:link.action>
+                    </f:for>
+                </div>
+                <f:if condition="{nextPage}">
+                    <f:link.action action="list" controller="Course" pluginName="Courses" arguments="{page: nextPage, category: selectedCategoryId}" class="elearning-button elearning-button--ghost">
+                        <f:translate key="pagination.next" extensionName="Elearning" />
+                    </f:link.action>
+                </f:if>
+            </nav>
+        </f:if>
+    </div>
+</f:section>

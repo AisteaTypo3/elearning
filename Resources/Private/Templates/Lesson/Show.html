@@ -1,0 +1,167 @@
+<f:layout name="Default" />
+
+<f:section name="Main">
+    <div class="elearning">
+        <div class="elearning-breadcrumbs">
+            <f:if condition="{coursesPid}">
+                <f:link.page pageUid="{coursesPid}"><f:translate key="breadcrumbs.courses" extensionName="Elearning" /></f:link.page> &raquo;
+            </f:if>
+            <f:if condition="{course} && {courseDetailPid}">
+                <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}">{course.title}</f:link.action> &raquo;
+            </f:if>
+            {lesson.title}
+        </div>
+        <h1>{lesson.title}</h1>
+
+        <div class="elearning-lesson-layout">
+            <div class="elearning-lesson-main">
+                <div class="elearning-card elearning-lesson-hero">
+                    <f:if condition="{lesson.type} == 'content'">
+                        <f:format.html>{lesson.content}</f:format.html>
+                    </f:if>
+
+                    <f:if condition="{lesson.type} == 'video'">
+                        <f:if condition="{lesson.file} && {lesson.file.originalResource} && {lesson.file.originalResource.mimeType}">
+                            <f:if condition="{f:contains(subject: lesson.file.originalResource.mimeType, value: 'video/')}">
+                                <div class="elearning-video-frame">
+                                    <video width="100%" height="360" controls playsinline class="elearning-video" data-provider="html5" data-complete-url="{f:uri.action(action: 'markVideoCompleted', controller: 'Lesson', pluginName: 'Lesson', pageUid: lessonPid, arguments: {lesson: lesson})}">
+                                        <source src="{lesson.file.originalResource.publicUrl}" type="{lesson.file.originalResource.mimeType}" />
+                                    </video>
+                                </div>
+                            </f:if>
+                            <f:if condition="!{f:contains(subject: lesson.file.originalResource.mimeType, value: 'video/')}">
+                                <p><f:link.file file="{lesson.file.originalResource}"><f:translate key="label.download_file" extensionName="Elearning" /></f:link.file></p>
+                            </f:if>
+                        </f:if>
+                        <f:if condition="!{lesson.file}">
+                            <f:if condition="{videoEmbedUrl}">
+                                <div class="elearning-video-frame">
+                                    <iframe
+                                        width="100%"
+                                        height="360"
+                                        src="{videoEmbedUrl}"
+                                        title="{lesson.title}"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        class="elearning-video"
+                                        data-provider="{f:if(condition: '{videoEmbedUrl} -> f:contains(subject: \"vimeo\")', then: 'vimeo', else: 'youtube')}"
+                                        data-complete-url="{f:uri.action(action: 'markVideoCompleted', controller: 'Lesson', pluginName: 'Lesson', pageUid: lessonPid, arguments: {lesson: lesson})}">
+                                    </iframe>
+                                </div>
+                            </f:if>
+                            <f:if condition="!{videoEmbedUrl}">
+                                <p>
+                                    <f:translate key="label.video_url" extensionName="Elearning" />:
+                                    <f:link.external uri="{lesson.videoUrl}">{lesson.videoUrl}</f:link.external>
+                                </p>
+                            </f:if>
+                        </f:if>
+                    </f:if>
+
+                    <f:if condition="{lesson.type} == 'file'">
+                        <f:if condition="{lesson.file}">
+                            <f:if condition="{lesson.file.originalResource.type} == 2">
+                                <div>
+                                    <f:image image="{lesson.file}" alt="{lesson.title}" maxWidth="800" />
+                                </div>
+                            </f:if>
+                            <f:if condition="{lesson.file.originalResource.type} != 2">
+                                <p><f:link.file file="{lesson.file.originalResource}"><f:translate key="label.download_file" extensionName="Elearning" /></f:link.file></p>
+                            </f:if>
+                        </f:if>
+                    </f:if>
+
+                    <f:if condition="{lesson.type} == 'link'">
+                        <p>
+                            <f:translate key="label.link" extensionName="Elearning" />:
+                            <f:link.external uri="{lesson.linkUrl}">{lesson.linkUrl}</f:link.external>
+                        </p>
+                    </f:if>
+                </div>
+
+                <f:if condition="{hasQuiz} && !{quizPassed}">
+                    <div class="elearning-card elearning-quiz-card">
+                        <h2><f:translate key="quiz.title" extensionName="Elearning" /></h2>
+                        <f:form action="submitQuiz" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" method="post">
+                            <f:for each="{lesson.questions}" as="question">
+                                <div class="elearning-quiz-question">
+                                    <p><strong>{question.questionText}</strong></p>
+                                    <f:for each="{question.answers}" as="answer">
+                                        <label class="elearning-quiz-answer">
+                                            <f:form.radio name="answers[{question.uid}]" value="{answer.uid}" />
+                                            {answer.title}
+                                        </label><br />
+                                    </f:for>
+                                </div>
+                            </f:for>
+                            <f:form.button class="elearning-button"><f:translate key="button.submit_quiz" extensionName="Elearning" /></f:form.button>
+                        </f:form>
+                    </div>
+                </f:if>
+
+                <f:if condition="{quizPassed}">
+                    <div class="elearning-card elearning-success-card">
+                        <div class="elearning-success-icon">✔</div>
+                        <p><strong><f:translate key="quiz.passed_message" extensionName="Elearning" /></strong></p>
+                    </div>
+                </f:if>
+
+                <f:if condition="{!hasQuiz}">
+                    <div class="elearning-lesson-completion" data-completed="{f:if(condition: isCompleted, then: '1', else: '0')}" data-toast-message="{f:translate(key: 'messages.lesson_completed', extensionName: 'Elearning')}">
+                        <p class="elearning-completed-label {f:if(condition: isCompleted, then: '', else: 'is-hidden')}">
+                            <strong><f:translate key="lesson.completed_label" extensionName="Elearning" /></strong>
+                        </p>
+                        <div class="elearning-mark-complete {f:if(condition: showMarkComplete, then: '', else: 'is-hidden')}">
+                            <f:form action="markComplete" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" method="post">
+                                <f:form.button class="elearning-button"><f:translate key="button.mark_completed" extensionName="Elearning" /></f:form.button>
+                            </f:form>
+                        </div>
+                    </div>
+                </f:if>
+
+                <nav class="elearning-nav">
+                    <f:if condition="{course} && {courseDetailPid}">
+                        <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}" class="elearning-button elearning-button--ghost">
+                            <f:translate key="nav.back_to_course" extensionName="Elearning" />
+                        </f:link.action>
+                    </f:if>
+                    <f:if condition="{previousLesson}">
+                        <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: previousLesson}" class="elearning-button elearning-button--ghost">
+                            &larr; <f:translate key="nav.previous" extensionName="Elearning" />
+                        </f:link.action>
+                    </f:if>
+                    <f:if condition="{nextLesson}">
+                        <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: nextLesson}" class="elearning-button">
+                            <f:translate key="nav.next" extensionName="Elearning" /> &rarr;
+                        </f:link.action>
+                    </f:if>
+                </nav>
+            </div>
+
+            <aside class="elearning-lesson-sidebar">
+                <div class="elearning-card">
+                    <strong>{course.title}</strong><br />
+                    <span class="elearning-meta">
+                        <f:translate key="progress.course_summary" arguments="{0: courseProgress.completed, 1: courseProgress.total, 2: courseProgress.percent}" extensionName="Elearning" />
+                    </span>
+                    <div class="elearning-progress">
+                        <span style="width: {courseProgress.percent}%"></span>
+                    </div>
+                </div>
+                <div class="elearning-card elearning-lesson-list">
+                    <h3><f:translate key="lesson.list_title" extensionName="Elearning" /></h3>
+                    <ol>
+                        <f:for each="{lessonList}" as="item">
+                            <li class="{f:if(condition: {item.uid} == {lesson.uid}, then: 'is-active', else: '')} {f:if(condition: {f:contains(subject: completedLessonUids, value: item.uid)}, then: 'is-done', else: '')}">
+                                <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: item}">
+                                    {item.title}
+                                </f:link.action>
+                            </li>
+                        </f:for>
+                    </ol>
+                </div>
+            </aside>
+        </div>
+    </div>
+</f:section>

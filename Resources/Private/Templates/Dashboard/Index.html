@@ -1,0 +1,63 @@
+<f:layout name="Default" />
+
+<f:section name="Main">
+    <div class="elearning">
+        <div class="elearning-breadcrumbs">
+            <f:translate key="breadcrumbs.dashboard" extensionName="Elearning" />
+            <f:if condition="{coursesPid}">
+                &raquo; <f:link.page pageUid="{coursesPid}"><f:translate key="breadcrumbs.courses" extensionName="Elearning" /></f:link.page>
+            </f:if>
+        </div>
+        <h1><f:translate key="heading.my_progress" extensionName="Elearning" /></h1>
+
+        <f:if condition="{profile.name} || {profile.username} || {profile.email}">
+            <div class="elearning-card elearning-profile-card">
+                <div class="elearning-profile-card__title"><f:translate key="profile.title" extensionName="Elearning" /></div>
+                <f:if condition="{profile.name}">
+                    <div class="elearning-profile-card__name">{profile.name}</div>
+                </f:if>
+                <f:if condition="!{profile.name} && {profile.username}">
+                    <div class="elearning-profile-card__name">{profile.username}</div>
+                </f:if>
+                <f:if condition="{profile.email}">
+                    <div class="elearning-profile-card__email">{profile.email}</div>
+                </f:if>
+                <f:if condition="!{profile.email}">
+                    <div class="elearning-profile-card__email elearning-profile-card__email--empty">-</div>
+                </f:if>
+            </div>
+        </f:if>
+
+        <f:if condition="{items -> f:count()}">
+            <div>
+                <f:for each="{items}" as="item">
+                    <article class="elearning-card">
+                        <strong>{item.course.title}</strong><br />
+                        <span class="elearning-meta">
+                            <f:translate key="progress.lessons_summary" arguments="{0: item.completed, 1: item.total, 2: item.percent}" extensionName="Elearning" />
+                        </span>
+                        <div class="elearning-progress">
+                            <span style="width: {item.percent}%"></span>
+                        </div>
+                        <div class="elearning-nav">
+                            <f:if condition="{coursesPid}">
+                                <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: item.course}" class="elearning-button elearning-button--ghost">
+                                    <f:translate key="button.go_to_course" extensionName="Elearning" />
+                                </f:link.action>
+                            </f:if>
+                            <f:if condition="{item.nextLesson}">
+                                <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: item.nextLesson}" class="elearning-button">
+                                    <f:translate key="button.continue" extensionName="Elearning" />
+                                </f:link.action>
+                            </f:if>
+                        </div>
+                    </article>
+                </f:for>
+            </div>
+        </f:if>
+
+        <f:if condition="{items -> f:count()} == 0">
+            <p><f:translate key="empty.courses" extensionName="Elearning" /></p>
+        </f:if>
+    </div>
+</f:section>

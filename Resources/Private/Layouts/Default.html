@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+<head>
+    <meta charset="utf-8" />
+    <title><f:translate key="layout.title" extensionName="Elearning" /></title>
+</head>
+<body>
+<div class="elearning-topnav elearning-topnav--left">
+    <f:if condition="{dashboardPid}">
+        <f:link.page pageUid="{dashboardPid}" class="elearning-topnav__link" title="{f:translate(key: 'nav.dashboard', extensionName: 'Elearning')}" aria-label="{f:translate(key: 'nav.dashboard', extensionName: 'Elearning')}">
+            <svg class="elearning-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 10h7V4H4v6zm0 10h7v-8H4v8zm9 0h7V14h-7v6zm0-18v10h7V2h-7z"/>
+            </svg>
+            <span class="elearning-topnav__label"><f:translate key="nav.dashboard" extensionName="Elearning" /></span>
+        </f:link.page>
+    </f:if>
+    <f:if condition="{coursesPid}">
+        <f:link.page pageUid="{coursesPid}" class="elearning-topnav__link" title="{f:translate(key: 'nav.courses', extensionName: 'Elearning')}" aria-label="{f:translate(key: 'nav.courses', extensionName: 'Elearning')}">
+            <svg class="elearning-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 5h16v3H4V5zm0 5h16v3H4v-3zm0 5h10v3H4v-3z"/>
+            </svg>
+            <span class="elearning-topnav__label"><f:translate key="nav.courses" extensionName="Elearning" /></span>
+        </f:link.page>
+    </f:if>
+    <f:if condition="{logoutPid}">
+        <f:link.page pageUid="{logoutPid}" additionalParams="{logintype: 'logout'}" class="elearning-topnav__link elearning-topnav__link--logout" title="{f:translate(key: 'nav.logout', extensionName: 'Elearning')}" aria-label="{f:translate(key: 'nav.logout', extensionName: 'Elearning')}">
+            <svg class="elearning-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12l5 4v-3h6v-2h-6V8l-5 4zm15-9H10a2 2 0 0 0-2 2v3h2V5h10v14H10v-3H8v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
+            </svg>
+            <span class="elearning-topnav__label"><f:translate key="nav.logout" extensionName="Elearning" /></span>
+        </f:link.page>
+    </f:if>
+</div>
+<div class="elearning-page">
+    <f:flashMessages as="flashMessages">
+        <f:if condition="{flashMessages}">
+            <div class="elearning-messages">
+                <f:for each="{flashMessages}" as="flashMessage">
+                    <div class="elearning-card elearning-message" data-severity="{flashMessage.severity.value}">
+                        <div class="elearning-message__icon">
+                            <f:switch expression="{flashMessage.severity.value}">
+                                <f:case value="4">✖</f:case>
+                                <f:case value="3">⚠</f:case>
+                                <f:case value="0">✔</f:case>
+                                <f:defaultCase>ℹ</f:defaultCase>
+                            </f:switch>
+                        </div>
+                        <div>
+                            <f:if condition="{flashMessage.title}">
+                                <strong>{flashMessage.title}</strong><br />
+                            </f:if>
+                            <span>{flashMessage.message}</span>
+                        </div>
+                    </div>
+                </f:for>
+            </div>
+        </f:if>
+    </f:flashMessages>
+    <div class="elearning-toast" role="status" aria-live="polite"></div>
+    <f:render section="Main" />
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<T3DataStructure>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.general</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.courseDetailPid>
+            <TCEforms>
+              <label>Course detail page</label>
+              <config>
+                <type>select</type>
+                <renderType>selectTree</renderType>
+                <foreign_table>pages</foreign_table>
+                <size>1</size>
+                <maxitems>1</maxitems>
+                <minitems>0</minitems>
+                <default>0</default>
+                <treeConfig>
+                  <parentField>pid</parentField>
+                  <appearance>
+                    <showHeader>1</showHeader>
+                    <expandAll>0</expandAll>
+                    <maxLevels>4</maxLevels>
+                  </appearance>
+                </treeConfig>
+              </config>
+            </TCEforms>
+          </settings.courseDetailPid>
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>
