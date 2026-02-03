@@ -39,6 +39,14 @@
         <source>My Progress</source>
         <target>Mein Fortschritt</target>
       </trans-unit>
+      <trans-unit id="heading.favorites">
+        <source>Favorites</source>
+        <target>Favoriten</target>
+      </trans-unit>
+      <trans-unit id="heading.in_progress">
+        <source>In progress</source>
+        <target>In Bearbeitung</target>
+      </trans-unit>
       <trans-unit id="heading.lessons">
         <source>Lessons</source>
         <target>Lektionen</target>
@@ -94,6 +102,10 @@
       <trans-unit id="button.continue">
         <source>Continue</source>
         <target>Weiter</target>
+      </trans-unit>
+      <trans-unit id="button.favorite">
+        <source>Favorite</source>
+        <target>Favorit</target>
       </trans-unit>
       <trans-unit id="button.submit_quiz">
         <source>Submit quiz</source>

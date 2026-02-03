@@ -10,6 +10,7 @@ Modern Extbase/Fluid extension for TYPO3 v13.4+ that provides a course catalog, 
 - Quiz retry rule: after a failed attempt, the learner must revisit the lesson before retrying the quiz
 - Dashboard with completion percentage per course
 - Progress tracking per frontend user (completed, quiz status, last visited)
+- Favorites: mark courses as favorite and show on dashboard
 - Apple‑style UI theme + Netflix‑style course grid
 - Full i18n: EN + DE translations for all UI texts
 
@@ -64,6 +65,7 @@ composer require vendor/elearning:@dev
 ## Database Notes
 - Progress is stored in `tx_elearning_domain_model_progress`
 - New field: `last_quiz_failed_at` (tracks failed quiz attempts for retry rule)
+- Favorites table: `tx_elearning_course_favorite` (unique per user + course)
 - Run the DB compare after updating the extension
 
 ## Localization (EN/DE)

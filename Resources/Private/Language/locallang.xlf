@@ -30,6 +30,12 @@
       <trans-unit id="heading.my_progress">
         <source>My Progress</source>
       </trans-unit>
+      <trans-unit id="heading.favorites">
+        <source>Favorites</source>
+      </trans-unit>
+      <trans-unit id="heading.in_progress">
+        <source>In progress</source>
+      </trans-unit>
       <trans-unit id="heading.lessons">
         <source>Lessons</source>
       </trans-unit>
@@ -71,6 +77,9 @@
       </trans-unit>
       <trans-unit id="button.continue">
         <source>Continue</source>
+      </trans-unit>
+      <trans-unit id="button.favorite">
+        <source>Favorite</source>
       </trans-unit>
       <trans-unit id="button.submit_quiz">
         <source>Submit quiz</source>

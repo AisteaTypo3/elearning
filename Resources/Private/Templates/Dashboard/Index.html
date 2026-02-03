@@ -28,35 +28,77 @@
             </div>
         </f:if>
 
-        <f:if condition="{items -> f:count()}">
-            <div>
-                <f:for each="{items}" as="item">
-                    <article class="elearning-card">
-                        <strong>{item.course.title}</strong><br />
-                        <span class="elearning-meta">
-                            <f:translate key="progress.lessons_summary" arguments="{0: item.completed, 1: item.total, 2: item.percent}" extensionName="Elearning" />
-                        </span>
-                        <div class="elearning-progress">
-                            <span style="width: {item.percent}%"></span>
-                        </div>
-                        <div class="elearning-nav">
-                            <f:if condition="{coursesPid}">
-                                <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: item.course}" class="elearning-button elearning-button--ghost">
-                                    <f:translate key="button.go_to_course" extensionName="Elearning" />
-                                </f:link.action>
-                            </f:if>
-                            <f:if condition="{item.nextLesson}">
-                                <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: item.nextLesson}" class="elearning-button">
-                                    <f:translate key="button.continue" extensionName="Elearning" />
-                                </f:link.action>
-                            </f:if>
-                        </div>
-                    </article>
-                </f:for>
-            </div>
+        <f:if condition="{favoriteItems -> f:count()}">
+            <section class="elearning-dashboard-section">
+                <h2><f:translate key="heading.favorites" extensionName="Elearning" /></h2>
+                <div class="elearning-dashboard-grid">
+                    <f:for each="{favoriteItems}" as="item">
+                        <article class="elearning-card">
+                            <div class="elearning-dashboard-title">
+                                <strong>{item.course.title}</strong>
+                                <span class="elearning-favorite-badge">★</span>
+                            </div>
+                            <span class="elearning-meta">
+                                <f:translate key="progress.lessons_summary" arguments="{0: item.completed, 1: item.total, 2: item.percent}" extensionName="Elearning" />
+                            </span>
+                            <div class="elearning-progress">
+                                <span style="width: {item.percent}%"></span>
+                            </div>
+                            <div class="elearning-nav">
+                                <f:if condition="{coursesPid}">
+                                    <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: item.course}" class="elearning-button elearning-button--ghost">
+                                        <f:translate key="button.go_to_course" extensionName="Elearning" />
+                                    </f:link.action>
+                                </f:if>
+                                <f:if condition="{item.nextLesson}">
+                                    <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: item.nextLesson}" class="elearning-button">
+                                        <f:translate key="button.continue" extensionName="Elearning" />
+                                    </f:link.action>
+                                </f:if>
+                            </div>
+                        </article>
+                    </f:for>
+                </div>
+            </section>
         </f:if>
 
-        <f:if condition="{items -> f:count()} == 0">
+        <f:if condition="{progressItems -> f:count()}">
+            <section class="elearning-dashboard-section">
+                <h2><f:translate key="heading.in_progress" extensionName="Elearning" /></h2>
+                <div class="elearning-dashboard-grid">
+                    <f:for each="{progressItems}" as="item">
+                        <article class="elearning-card">
+                            <div class="elearning-dashboard-title">
+                                <strong>{item.course.title}</strong>
+                                <f:if condition="{item.isFavorite}">
+                                    <span class="elearning-favorite-badge">★</span>
+                                </f:if>
+                            </div>
+                            <span class="elearning-meta">
+                                <f:translate key="progress.lessons_summary" arguments="{0: item.completed, 1: item.total, 2: item.percent}" extensionName="Elearning" />
+                            </span>
+                            <div class="elearning-progress">
+                                <span style="width: {item.percent}%"></span>
+                            </div>
+                            <div class="elearning-nav">
+                                <f:if condition="{coursesPid}">
+                                    <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: item.course}" class="elearning-button elearning-button--ghost">
+                                        <f:translate key="button.go_to_course" extensionName="Elearning" />
+                                    </f:link.action>
+                                </f:if>
+                                <f:if condition="{item.nextLesson}">
+                                    <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: item.nextLesson}" class="elearning-button">
+                                        <f:translate key="button.continue" extensionName="Elearning" />
+                                    </f:link.action>
+                                </f:if>
+                            </div>
+                        </article>
+                    </f:for>
+                </div>
+            </section>
+        </f:if>
+
+        <f:if condition="{favoriteItems -> f:count()} == 0 && {progressItems -> f:count()} == 0">
             <p><f:translate key="empty.courses" extensionName="Elearning" /></p>
         </f:if>
     </div>

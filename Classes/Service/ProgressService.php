@@ -183,4 +183,13 @@ final class ProgressService
 
         return $this->progressRepository->findCompletedLessonUidsForUser($lessonUids, $feUserId);
     }
+
+    public function hasProgressForCourse(int $feUserId, int $courseId): bool
+    {
+        if ($feUserId <= 0 || $courseId <= 0) {
+            return false;
+        }
+
+        return $this->progressRepository->hasProgressForCourse($feUserId, $courseId);
+    }
 }

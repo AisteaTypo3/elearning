@@ -6,25 +6,34 @@ namespace Vendor\Elearning\Controller;
 
 use Vendor\Elearning\Domain\Repository\CourseRepository;
 use Vendor\Elearning\Domain\Repository\LessonRepository;
+use Vendor\Elearning\Service\FavoriteService;
 use Vendor\Elearning\Service\ProgressService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DashboardController extends AbstractFrontendController
 {
+    private FavoriteService $favoriteService;
+
     public function __construct(
         private readonly CourseRepository $courseRepository,
         private readonly LessonRepository $lessonRepository,
         private readonly ProgressService $progressService,
-        \TYPO3\CMS\Core\Context\Context $context
+        \TYPO3\CMS\Core\Context\Context $context,
+        ?FavoriteService $favoriteService = null
     ) {
         parent::__construct($context);
+        $this->favoriteService = $favoriteService ?? GeneralUtility::makeInstance(FavoriteService::class);
     }
 
     public function indexAction(): \Psr\Http\Message\ResponseInterface
     {
         $feUserId = $this->getFrontendUserId();
         $courses = $this->courseRepository->findPublished();
+        $favoriteCourseUids = $this->favoriteService->getFavoriteCourseUids($feUserId);
+        $favoriteMap = array_fill_keys($favoriteCourseUids, true);
 
-        $items = [];
+        $favoriteItems = [];
+        $progressItems = [];
         foreach ($courses as $course) {
             $lessons = $this->lessonRepository->findPublishedByCourse($course);
             $lessonUids = [];
@@ -46,16 +55,32 @@ class DashboardController extends AbstractFrontendController
                 }
             }
 
-            $items[] = [
+            $isFavorite = isset($favoriteMap[$course->getUid()]);
+            $hasProgress = $this->progressService->hasProgressForCourse($feUserId, $course->getUid());
+            if (!$isFavorite && !$hasProgress) {
+                continue;
+            }
+
+            $item = [
                 'course' => $course,
                 'total' => $total,
                 'completed' => $completed,
                 'percent' => $percent,
                 'nextLesson' => $nextLesson,
+                'isFavorite' => $isFavorite,
             ];
+            if ($isFavorite) {
+                $favoriteItems[] = $item;
+            }
+            if ($hasProgress) {
+                $progressItems[] = $item;
+            }
         }
 
-        $this->view->assign('items', $items);
+        $this->view->assignMultiple([
+            'favoriteItems' => $favoriteItems,
+            'progressItems' => $progressItems,
+        ]);
         $this->view->assignMultiple([
             'courseDetailPid' => $this->getConfiguredPid('courseDetailPid'),
             'lessonPid' => $this->getConfiguredPid('lessonPid'),

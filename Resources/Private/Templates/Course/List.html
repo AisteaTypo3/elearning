@@ -33,6 +33,13 @@
                             </div>
                         </f:if>
                         <div class="elearning-course-card__body">
+                            <div class="elearning-course-card__actions">
+                                <f:form action="toggleFavorite" controller="Course" pluginName="Courses" pageUid="{coursesPid}" arguments="{course: course}" method="post">
+                                    <f:form.button class="elearning-favorite {f:if(condition: '{favoriteMap.{course.uid}}', then: 'is-active', else: '')}" title="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}" aria-label="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}">
+                                        ★
+                                    </f:form.button>
+                                </f:form>
+                            </div>
                             <f:if condition="{course.categories -> f:count()}">
                                 <div class="elearning-course-card__tag">
                                     <f:for each="{course.categories}" as="category" iteration="iter">

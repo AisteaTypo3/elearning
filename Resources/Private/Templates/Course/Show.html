@@ -9,6 +9,13 @@
             {course.title}
         </div>
         <h1>{course.title}</h1>
+        <div class="elearning-course-hero-actions">
+            <f:form action="toggleFavorite" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}" method="post">
+                <f:form.button class="elearning-favorite {f:if(condition: isFavorite, then: 'is-active', else: '')}" title="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}" aria-label="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}">
+                    ★
+                </f:form.button>
+            </f:form>
+        </div>
 
         <f:if condition="{course.image}">
             <div>

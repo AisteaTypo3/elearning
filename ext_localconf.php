@@ -17,10 +17,10 @@ ExtensionUtility::configurePlugin(
     'Elearning',
     'Courses',
     [
-        CourseController::class => 'list',
+        CourseController::class => 'list,toggleFavorite',
     ],
     [
-        CourseController::class => 'list',
+        CourseController::class => 'list,toggleFavorite',
     ]
 );
 
@@ -28,10 +28,10 @@ ExtensionUtility::configurePlugin(
     'Elearning',
     'CourseDetail',
     [
-        CourseController::class => 'show',
+        CourseController::class => 'show,toggleFavorite',
     ],
     [
-        CourseController::class => 'show',
+        CourseController::class => 'show,toggleFavorite',
     ]
 );
 

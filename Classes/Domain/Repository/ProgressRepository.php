@@ -6,6 +6,8 @@ namespace Vendor\Elearning\Domain\Repository;
 
 use Vendor\Elearning\Domain\Model\Lesson;
 use Vendor\Elearning\Domain\Model\Progress;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 class ProgressRepository extends Repository
@@ -50,5 +52,31 @@ class ProgressRepository extends Repository
         }
 
         return array_values(array_unique($result));
+    }
+
+    public function hasProgressForCourse(int $feUserId, int $courseId): bool
+    {
+        if ($feUserId <= 0 || $courseId <= 0) {
+            return false;
+        }
+
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_elearning_domain_model_progress');
+        $count = $queryBuilder
+            ->count('p.uid')
+            ->from('tx_elearning_domain_model_progress', 'p')
+            ->innerJoin('p', 'tx_elearning_domain_model_lesson', 'l', 'l.uid = p.lesson')
+            ->where(
+                $queryBuilder->expr()->eq('p.fe_user', $queryBuilder->createNamedParameter($feUserId)),
+                $queryBuilder->expr()->eq('p.deleted', 0),
+                $queryBuilder->expr()->eq('p.hidden', 0),
+                $queryBuilder->expr()->eq('l.course', $queryBuilder->createNamedParameter($courseId)),
+                $queryBuilder->expr()->eq('l.deleted', 0),
+                $queryBuilder->expr()->eq('l.hidden', 0)
+            )
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchOne();
+
+        return (int)$count > 0;
     }
 }

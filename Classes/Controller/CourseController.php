@@ -7,6 +7,7 @@ namespace Vendor\Elearning\Controller;
 use Vendor\Elearning\Domain\Model\Course;
 use Vendor\Elearning\Domain\Repository\CourseRepository;
 use Vendor\Elearning\Domain\Repository\LessonRepository;
+use Vendor\Elearning\Service\FavoriteService;
 use Vendor\Elearning\Service\ProgressService;
 use TYPO3\CMS\Core\Error\Http\PageNotFoundException;
 use TYPO3\CMS\Core\Pagination\SimplePagination;
@@ -16,13 +17,17 @@ use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 
 class CourseController extends AbstractFrontendController
 {
+    private FavoriteService $favoriteService;
+
     public function __construct(
         private readonly CourseRepository $courseRepository,
         private readonly LessonRepository $lessonRepository,
         private readonly ProgressService $progressService,
-        \TYPO3\CMS\Core\Context\Context $context
+        \TYPO3\CMS\Core\Context\Context $context,
+        ?FavoriteService $favoriteService = null
     ) {
         parent::__construct($context);
+        $this->favoriteService = $favoriteService ?? GeneralUtility::makeInstance(FavoriteService::class);
     }
 
     public function listAction(): \Psr\Http\Message\ResponseInterface
@@ -61,6 +66,8 @@ class CourseController extends AbstractFrontendController
                 'percent' => $percent,
             ];
         }
+        $favoriteCourseUids = $this->favoriteService->getFavoriteCourseUids($feUserId);
+        $favoriteMap = array_fill_keys($favoriteCourseUids, true);
 
         $this->view->assignMultiple([
             'courses' => $paginator->getPaginatedItems(),
@@ -72,6 +79,7 @@ class CourseController extends AbstractFrontendController
             'categories' => $this->fetchCategories($selectedCategoryId),
             'selectedCategoryId' => $selectedCategoryId,
             'courseProgress' => $courseProgress,
+            'favoriteMap' => $favoriteMap,
             'courseDetailPid' => $this->getConfiguredPid('courseDetailPid'),
         ]);
         return $this->htmlResponse();
@@ -159,6 +167,7 @@ class CourseController extends AbstractFrontendController
             'lessons' => $lessons,
             'lessonPid' => $this->getConfiguredPid('lessonPid'),
             'firstLesson' => $firstLesson,
+            'isFavorite' => $this->favoriteService->isFavorite($feUserId, $course->getUid()),
             'courseProgress' => [
                 'total' => $total,
                 'completed' => $completed,
@@ -167,5 +176,23 @@ class CourseController extends AbstractFrontendController
         ]);
 
         return $this->htmlResponse();
+    }
+
+    public function toggleFavoriteAction(Course $course): \Psr\Http\Message\ResponseInterface
+    {
+        if (!$course->isPublished()) {
+            throw new PageNotFoundException($this->translate('errors.course_not_published'), 1738563942);
+        }
+
+        $feUserId = $this->getFrontendUserId();
+        $this->favoriteService->toggleFavorite($feUserId, $course->getUid());
+
+        $referer = $this->request->getHeader('referer')[0] ?? '';
+        if ($referer !== '') {
+            return $this->redirectToUri($referer);
+        }
+
+        $pageUid = $this->getConfiguredPid('courseDetailPid');
+        return $this->redirect('show', 'Course', null, ['course' => $course], $pageUid);
     }
 }
