@@ -27,6 +27,7 @@
             <div class="elearning-course-grid">
                 <f:for each="{courses}" as="course">
                     <article class="elearning-card elearning-course-card">
+                        <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}" class="elearning-course-card__link" title="{course.title}" aria-label="{course.title}"></f:link.action>
                         <f:if condition="{course.image}">
                             <div class="elearning-course-card__media">
                                 <f:image image="{course.image}" alt="{course.title}" maxWidth="320" />
@@ -49,11 +50,7 @@
                                     </f:for>
                                 </div>
                             </f:if>
-                            <h2 class="elearning-course-card__title">
-                                <f:link.action action="show" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}">
-                                    {course.title}
-                                </f:link.action>
-                            </h2>
+                            <h2 class="elearning-course-card__title">{course.title}</h2>
                             <f:if condition="{course.teaser}">
                                 <p class="elearning-course-card__description">{course.teaser}</p>
                             </f:if>

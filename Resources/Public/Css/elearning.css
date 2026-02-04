@@ -432,6 +432,28 @@
   gap: 0.35rem;
 }
 
+.elearning .elearning-course-card {
+  position: relative;
+}
+
+.elearning .elearning-course-card__link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.elearning .elearning-course-card__actions {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.elearning .elearning-course-card__actions .elearning-favorite {
+  pointer-events: auto;
+}
+
 .elearning .elearning-course-card__actions {
   display: flex;
   justify-content: flex-end;
