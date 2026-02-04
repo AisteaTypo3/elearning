@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Domain\Repository;
+namespace Aistea\Elearning\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;

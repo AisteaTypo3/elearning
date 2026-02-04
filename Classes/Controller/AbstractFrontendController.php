@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Controller;
+namespace Aistea\Elearning\Controller;
 
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Context\Context;

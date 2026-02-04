@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Controller;
+namespace Aistea\Elearning\Controller;
 
-use Vendor\Elearning\Domain\Model\Course;
-use Vendor\Elearning\Domain\Repository\CourseRepository;
-use Vendor\Elearning\Domain\Repository\LessonRepository;
-use Vendor\Elearning\Service\FavoriteService;
-use Vendor\Elearning\Service\ProgressService;
+use Aistea\Elearning\Domain\Model\Course;
+use Aistea\Elearning\Domain\Repository\CourseRepository;
+use Aistea\Elearning\Domain\Repository\LessonRepository;
+use Aistea\Elearning\Service\FavoriteService;
+use Aistea\Elearning\Service\ProgressService;
 use TYPO3\CMS\Core\Error\Http\PageNotFoundException;
 use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Core\Database\ConnectionPool;

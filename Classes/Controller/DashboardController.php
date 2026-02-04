@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Controller;
+namespace Aistea\Elearning\Controller;
 
-use Vendor\Elearning\Domain\Repository\CourseRepository;
-use Vendor\Elearning\Domain\Repository\LessonRepository;
-use Vendor\Elearning\Service\FavoriteService;
-use Vendor\Elearning\Service\ProgressService;
+use Aistea\Elearning\Domain\Repository\CourseRepository;
+use Aistea\Elearning\Domain\Repository\LessonRepository;
+use Aistea\Elearning\Service\FavoriteService;
+use Aistea\Elearning\Service\ProgressService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DashboardController extends AbstractFrontendController

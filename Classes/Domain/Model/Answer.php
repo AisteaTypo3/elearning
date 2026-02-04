@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Domain\Model;
+namespace Aistea\Elearning\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 

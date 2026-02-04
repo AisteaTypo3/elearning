@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Service;
+namespace Aistea\Elearning\Service;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Service;
+namespace Aistea\Elearning\Service;
 
-use Vendor\Elearning\Domain\Model\Lesson;
-use Vendor\Elearning\Domain\Model\Progress;
-use Vendor\Elearning\Domain\Repository\ProgressRepository;
+use Aistea\Elearning\Domain\Model\Lesson;
+use Aistea\Elearning\Domain\Model\Progress;
+use Aistea\Elearning\Domain\Repository\ProgressRepository;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 final class ProgressService

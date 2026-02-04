@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Controller;
+namespace Aistea\Elearning\Controller;
 
-use Vendor\Elearning\Domain\Model\Lesson;
-use Vendor\Elearning\Domain\Model\Question;
-use Vendor\Elearning\Domain\Repository\LessonRepository;
-use Vendor\Elearning\Service\NotificationService;
-use Vendor\Elearning\Service\ProgressService;
+use Aistea\Elearning\Domain\Model\Lesson;
+use Aistea\Elearning\Domain\Model\Question;
+use Aistea\Elearning\Domain\Repository\LessonRepository;
+use Aistea\Elearning\Service\NotificationService;
+use Aistea\Elearning\Service\ProgressService;
 use TYPO3\CMS\Core\Error\Http\PageNotFoundException;
 use TYPO3\CMS\Core\Http\JsonResponse;
 

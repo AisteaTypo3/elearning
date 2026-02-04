@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Service;
+namespace Aistea\Elearning\Service;
 
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use Vendor\Elearning\Domain\Model\Lesson;
+use Aistea\Elearning\Domain\Model\Lesson;
 
 final class NotificationService
 {

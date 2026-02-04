@@ -29,7 +29,7 @@ Modern Extbase/Fluid extension for TYPO3 v13.4+ that provides a course catalog, 
 ```
 2) Require the extension:
 ```
-composer require vendor/elearning:@dev
+composer require aistea/elearning:@dev
 ```
 3) Flush caches and run the database schema update.
 

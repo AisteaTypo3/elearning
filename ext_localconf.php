@@ -7,9 +7,9 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
-use Vendor\Elearning\Controller\CourseController;
-use Vendor\Elearning\Controller\LessonController;
-use Vendor\Elearning\Controller\DashboardController;
+use Aistea\Elearning\Controller\CourseController;
+use Aistea\Elearning\Controller\LessonController;
+use Aistea\Elearning\Controller\DashboardController;
 
 defined('TYPO3') or die();
 

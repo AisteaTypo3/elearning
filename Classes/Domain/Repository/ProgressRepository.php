@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vendor\Elearning\Domain\Repository;
+namespace Aistea\Elearning\Domain\Repository;
 
-use Vendor\Elearning\Domain\Model\Lesson;
-use Vendor\Elearning\Domain\Model\Progress;
+use Aistea\Elearning\Domain\Model\Lesson;
+use Aistea\Elearning\Domain\Model\Progress;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Repository;
