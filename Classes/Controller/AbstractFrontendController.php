@@ -34,6 +34,7 @@ abstract class AbstractFrontendController extends ActionController
             'coursesPid' => $this->getConfiguredPid('coursesPid'),
             'dashboardPid' => $this->getConfiguredPid('dashboardPid'),
             'logoutPid' => $this->getConfiguredPid('logoutPid'),
+            'isRealFrontendUser' => $this->getFrontendUserId() > 0,
         ]);
     }
 

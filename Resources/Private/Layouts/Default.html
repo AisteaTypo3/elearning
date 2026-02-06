@@ -32,6 +32,15 @@
     </f:if>
 </div>
 <div class="elearning-page">
+    <f:if condition="{isRealFrontendUser} == 0">
+        <div class="elearning-preview-banner" role="status" aria-live="polite">
+            <div class="elearning-preview-banner__icon">⚠</div>
+            <div class="elearning-preview-banner__content">
+                <strong><f:translate key="messages.preview_title" extensionName="Elearning" /></strong><br />
+                <span><f:translate key="messages.preview_hint" extensionName="Elearning" /></span>
+            </div>
+        </div>
+    </f:if>
     <f:flashMessages as="flashMessages">
         <f:if condition="{flashMessages}">
             <div class="elearning-messages">

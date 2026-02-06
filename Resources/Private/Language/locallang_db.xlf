@@ -149,6 +149,18 @@
       <trans-unit id="tx_elearning_domain_model_progress.last_visited_at">
         <source>Last visited at</source>
       </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course_rating">
+        <source>Course rating</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course_rating.fe_user">
+        <source>Frontend User</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course_rating.course">
+        <source>Course</source>
+      </trans-unit>
+      <trans-unit id="tx_elearning_domain_model_course_rating.rating">
+        <source>Rating</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

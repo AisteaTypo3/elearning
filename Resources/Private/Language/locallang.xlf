@@ -147,6 +147,12 @@
       <trans-unit id="messages.lesson_completed">
         <source>Lesson completed.</source>
       </trans-unit>
+      <trans-unit id="messages.preview_title">
+        <source>Preview mode</source>
+      </trans-unit>
+      <trans-unit id="messages.preview_hint">
+        <source>Progress and favorites may appear empty because no frontend user is logged in. Open the real frontend and log in.</source>
+      </trans-unit>
       <trans-unit id="email.subject.lesson_completed">
         <source>Lesson completed: %s</source>
       </trans-unit>
@@ -170,6 +176,12 @@
       </trans-unit>
       <trans-unit id="errors.lesson_not_published">
         <source>Lesson not published</source>
+      </trans-unit>
+      <trans-unit id="rating.label">
+        <source>Course rating</source>
+      </trans-unit>
+      <trans-unit id="rating.count">
+        <source>%d ratings</source>
       </trans-unit>
     </body>
   </file>

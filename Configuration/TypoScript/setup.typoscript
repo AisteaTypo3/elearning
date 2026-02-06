@@ -4,6 +4,10 @@ plugin.tx_elearning {
     partialRootPaths.0 = EXT:elearning/Resources/Private/Partials/
     layoutRootPaths.0 = EXT:elearning/Resources/Private/Layouts/
   }
+  persistence {
+    storagePid = 0
+    respectStoragePage = 1
+  }
   settings {
     courseDetailPid = 0
     lessonPid = 0

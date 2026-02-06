@@ -195,6 +195,14 @@
         <source>Lesson completed.</source>
         <target>Lektion abgeschlossen.</target>
       </trans-unit>
+      <trans-unit id="messages.preview_title">
+        <source>Preview mode</source>
+        <target>Vorschau</target>
+      </trans-unit>
+      <trans-unit id="messages.preview_hint">
+        <source>Progress and favorites may appear empty because no frontend user is logged in. Open the real frontend and log in.</source>
+        <target>Fortschritt und Favoriten können leer erscheinen, weil kein Frontend-Nutzer angemeldet ist. Öffne das echte Frontend und melde dich an.</target>
+      </trans-unit>
       <trans-unit id="email.subject.lesson_completed">
         <source>Lesson completed: %s</source>
         <target>Lektion abgeschlossen: %s</target>
@@ -226,6 +234,14 @@
       <trans-unit id="errors.lesson_not_published">
         <source>Lesson not published</source>
         <target>Lektion nicht veröffentlicht</target>
+      </trans-unit>
+      <trans-unit id="rating.label">
+        <source>Course rating</source>
+        <target>Kursbewertung</target>
+      </trans-unit>
+      <trans-unit id="rating.count">
+        <source>%d ratings</source>
+        <target>%d Bewertungen</target>
       </trans-unit>
     </body>
   </file>

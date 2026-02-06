@@ -1,0 +1,2 @@
+# cat=elearning/persistence; type=boolean; label=Respect storage PID (disable to show records from all pages)
+respectStoragePage = 1

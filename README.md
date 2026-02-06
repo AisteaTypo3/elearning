@@ -11,8 +11,11 @@ Modern Extbase/Fluid extension for TYPO3 v13.4+ that provides a course catalog, 
 - Dashboard with completion percentage per course
 - Progress tracking per frontend user (completed, quiz status, last visited)
 - Favorites: mark courses as favorite and show on dashboard
+- Course ratings (1–5 stars, one vote per frontend user)
 - Apple‑style UI theme + Netflix‑style course grid
 - Full i18n: EN + DE translations for all UI texts
+
+Note: This extension currently provides four frontend plugins only: Courses, Course Detail, Lesson View, and Dashboard.
 
 ## Requirements
 - TYPO3 v13.4+
@@ -66,6 +69,7 @@ composer require aistea/elearning:@dev
 - Progress is stored in `tx_elearning_domain_model_progress`
 - New field: `last_quiz_failed_at` (tracks failed quiz attempts for retry rule)
 - Favorites table: `tx_elearning_course_favorite` (unique per user + course)
+- Course ratings table: `tx_elearning_domain_model_course_rating` (unique per user + course)
 - Run the DB compare after updating the extension
 
 ## Localization (EN/DE)
@@ -80,6 +84,11 @@ If your default language is German, put German strings into `locallang.xlf` and 
 - The extension enforces a login check on every action and returns a 403 if not logged in.
 - You should still protect learning pages with TYPO3 page access permissions (FE group).
 - For user‑specific progress, keep these plugins uncached (default behavior in this setup).
+
+## Notes on Preview & Storage PID
+- In backend preview mode, progress and favorites may appear empty because no frontend user is logged in.
+- If your records live on a storage page, set the plugin “Starting Point” to that PID or configure `plugin.tx_elearning.persistence.storagePid`.
+- You can disable storage PID filtering globally in the extension configuration (`respectStoragePage = 0`).
 
 ## Styling
 - Stylesheet: `EXT:elearning/Resources/Public/Css/elearning.css`

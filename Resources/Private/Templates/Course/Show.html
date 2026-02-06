@@ -12,8 +12,40 @@
         <div class="elearning-course-hero-actions">
             <f:form action="toggleFavorite" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}" method="post">
                 <f:form.button class="elearning-favorite {f:if(condition: isFavorite, then: 'is-active', else: '')}" title="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}" aria-label="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}">
-                    ★
+                    ♥
                 </f:form.button>
+            </f:form>
+        </div>
+        <div class="elearning-course-rating">
+            <div class="elearning-course-rating__summary">
+                <span class="elearning-course-rating__value">{ratingSummary.average -> f:format.number(decimals: 1)}</span>
+                <span class="elearning-course-rating__count">
+                    <f:translate key="rating.count" arguments="{0: ratingSummary.count}" extensionName="Elearning" />
+                </span>
+            </div>
+            <f:form action="rate" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}" method="post">
+                <div class="elearning-course-rating__stars" role="group" aria-label="{f:translate(key: 'rating.label', extensionName: 'Elearning')}">
+                    <f:for each="{0:5,1:4,2:3,3:2,4:1}" as="star">
+                        <f:if condition="{displayRating} >= {star}">
+                            <f:then>
+                                <f:form.button
+                                    name="rating"
+                                    value="{star}"
+                                    class="elearning-star is-active">
+                                    ★
+                                </f:form.button>
+                            </f:then>
+                            <f:else>
+                                <f:form.button
+                                    name="rating"
+                                    value="{star}"
+                                    class="elearning-star">
+                                    ★
+                                </f:form.button>
+                            </f:else>
+                        </f:if>
+                    </f:for>
+                </div>
             </f:form>
         </div>
 

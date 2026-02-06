@@ -10,25 +10,29 @@ defined('TYPO3') or die();
 ExtensionUtility::registerPlugin(
     'Elearning',
     'Courses',
-    'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.courses.title'
+    'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.courses.title',
+    'elearning-plugin-courses'
 );
 
 ExtensionUtility::registerPlugin(
     'Elearning',
     'CourseDetail',
-    'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.coursedetail.title'
+    'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.coursedetail.title',
+    'elearning-plugin-coursedetail'
 );
 
 ExtensionUtility::registerPlugin(
     'Elearning',
     'Lesson',
-    'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.lesson.title'
+    'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.lesson.title',
+    'elearning-plugin-lesson'
 );
 
 ExtensionUtility::registerPlugin(
     'Elearning',
     'Dashboard',
-    'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.dashboard.title'
+    'LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.dashboard.title',
+    'elearning-plugin-dashboard'
 );
 
 ExtensionManagementUtility::addPiFlexFormValue(
@@ -43,50 +47,6 @@ ExtensionManagementUtility::addPiFlexFormValue(
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['elearning_courses'] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['elearning_coursedetail'] = 'pi_flexform';
-
-ExtensionManagementUtility::addPageTSConfig(
-    "mod.wizards.newContentElement.wizardItems.plugins {\n" .
-    "  elements {\n" .
-    "    elearning_courses {\n" .
-    "      iconIdentifier = elearning-plugin-courses\n" .
-    "      title = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.courses.title\n" .
-    "      description = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.courses.description\n" .
-    "      tt_content_defValues {\n" .
-    "        CType = list\n" .
-    "        list_type = elearning_courses\n" .
-    "      }\n" .
-    "    }\n" .
-    "    elearning_coursedetail {\n" .
-    "      iconIdentifier = elearning-plugin-coursedetail\n" .
-    "      title = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.coursedetail.title\n" .
-    "      description = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.coursedetail.description\n" .
-    "      tt_content_defValues {\n" .
-    "        CType = list\n" .
-    "        list_type = elearning_coursedetail\n" .
-    "      }\n" .
-    "    }\n" .
-    "    elearning_lesson {\n" .
-    "      iconIdentifier = elearning-plugin-lesson\n" .
-    "      title = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.lesson.title\n" .
-    "      description = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.lesson.description\n" .
-    "      tt_content_defValues {\n" .
-    "        CType = list\n" .
-    "        list_type = elearning_lesson\n" .
-    "      }\n" .
-    "    }\n" .
-    "    elearning_dashboard {\n" .
-    "      iconIdentifier = elearning-plugin-dashboard\n" .
-    "      title = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.dashboard.title\n" .
-    "      description = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:plugin.dashboard.description\n" .
-    "      tt_content_defValues {\n" .
-    "        CType = list\n" .
-    "        list_type = elearning_dashboard\n" .
-    "      }\n" .
-    "    }\n" .
-    "  }\n" .
-    "  show = *\n" .
-    "}\n"
-);
 
 ExtensionManagementUtility::addPageTSConfig(
     "TCEFORM.tt_content.pi_flexform.elearning_courses.sDEF.settings\\.courseDetailPid.disabled = 0\n" .

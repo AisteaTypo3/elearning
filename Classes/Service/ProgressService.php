@@ -7,25 +7,29 @@ namespace Aistea\Elearning\Service;
 use Aistea\Elearning\Domain\Model\Lesson;
 use Aistea\Elearning\Domain\Model\Progress;
 use Aistea\Elearning\Domain\Repository\ProgressRepository;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 final class ProgressService
 {
     public function __construct(
         private readonly ProgressRepository $progressRepository,
-        private readonly PersistenceManagerInterface $persistenceManager
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly ConfigurationManagerInterface $configurationManager
     ) {
     }
 
     public function recordVisit(int $feUserId, Lesson $lesson): Progress
     {
         $now = new \DateTime();
+        $storagePid = $this->resolveStoragePid($lesson->getPid());
         if ($feUserId <= 0) {
             $progress = new Progress();
             $progress->setFeUser(0);
             $progress->setLesson($lesson);
             $progress->setCompleted(false);
             $progress->setLastVisitedAt($now);
+            $progress->setPid($storagePid);
             return $progress;
         }
 
@@ -36,7 +40,7 @@ final class ProgressService
             $progress->setFeUser($feUserId);
             $progress->setLesson($lesson);
             $progress->setCompleted(false);
-            $progress->setPid($lesson->getPid());
+            $progress->setPid($storagePid);
             $progress->setLastVisitedAt($now);
             $this->progressRepository->add($progress);
             $this->persistenceManager->persistAll();
@@ -53,11 +57,12 @@ final class ProgressService
     public function markCompleted(int $feUserId, Lesson $lesson): Progress
     {
         $now = new \DateTime();
+        $storagePid = $this->resolveStoragePid($lesson->getPid());
         if ($feUserId <= 0) {
             $progress = new Progress();
             $progress->setFeUser(0);
             $progress->setLesson($lesson);
-            $progress->setPid($lesson->getPid());
+            $progress->setPid($storagePid);
             $progress->setCompleted(true);
             $progress->setCompletedAt($now);
             $progress->setLastVisitedAt($now);
@@ -70,7 +75,7 @@ final class ProgressService
             $progress = new Progress();
             $progress->setFeUser($feUserId);
             $progress->setLesson($lesson);
-            $progress->setPid($lesson->getPid());
+            $progress->setPid($storagePid);
             $progress->setCompleted(true);
             $progress->setCompletedAt($now);
             $progress->setLastVisitedAt($now);
@@ -91,11 +96,12 @@ final class ProgressService
     public function markQuizPassed(int $feUserId, Lesson $lesson): Progress
     {
         $now = new \DateTime();
+        $storagePid = $this->resolveStoragePid($lesson->getPid());
         if ($feUserId <= 0) {
             $progress = new Progress();
             $progress->setFeUser(0);
             $progress->setLesson($lesson);
-            $progress->setPid($lesson->getPid());
+            $progress->setPid($storagePid);
             $progress->setQuizPassed(true);
             $progress->setQuizPassedAt($now);
             $progress->setCompleted(true);
@@ -110,7 +116,7 @@ final class ProgressService
             $progress = new Progress();
             $progress->setFeUser($feUserId);
             $progress->setLesson($lesson);
-            $progress->setPid($lesson->getPid());
+            $progress->setPid($storagePid);
             $this->progressRepository->add($progress);
         }
 
@@ -128,11 +134,12 @@ final class ProgressService
     public function markQuizFailed(int $feUserId, Lesson $lesson): Progress
     {
         $now = new \DateTime();
+        $storagePid = $this->resolveStoragePid($lesson->getPid());
         if ($feUserId <= 0) {
             $progress = new Progress();
             $progress->setFeUser(0);
             $progress->setLesson($lesson);
-            $progress->setPid($lesson->getPid());
+            $progress->setPid($storagePid);
             $progress->setQuizPassed(false);
             $progress->setLastQuizFailedAt($now);
             $progress->setLastVisitedAt($now);
@@ -144,7 +151,7 @@ final class ProgressService
             $progress = new Progress();
             $progress->setFeUser($feUserId);
             $progress->setLesson($lesson);
-            $progress->setPid($lesson->getPid());
+            $progress->setPid($storagePid);
             $progress->setQuizPassed(false);
             $progress->setLastQuizFailedAt($now);
             $progress->setLastVisitedAt($now);
@@ -191,5 +198,36 @@ final class ProgressService
         }
 
         return $this->progressRepository->hasProgressForCourse($feUserId, $courseId);
+    }
+
+    private function resolveStoragePid(int $fallbackPid): int
+    {
+        $storagePid = 0;
+        try {
+            $framework = $this->configurationManager->getConfiguration(
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
+                'Elearning'
+            );
+            $persistence = is_array($framework['persistence'] ?? null) ? $framework['persistence'] : [];
+            $storagePid = $this->parseStoragePid((string)($persistence['storagePid'] ?? '0'));
+        } catch (\Throwable) {
+            $storagePid = 0;
+        }
+
+        return $storagePid > 0 ? $storagePid : $fallbackPid;
+    }
+
+    private function parseStoragePid(string $value): int
+    {
+        if ($value === '') {
+            return 0;
+        }
+        foreach (explode(',', $value) as $segment) {
+            $pid = (int)trim($segment);
+            if ($pid > 0) {
+                return $pid;
+            }
+        }
+        return 0;
     }
 }

@@ -7,6 +7,7 @@ namespace Aistea\Elearning\Controller;
 use Aistea\Elearning\Domain\Model\Course;
 use Aistea\Elearning\Domain\Repository\CourseRepository;
 use Aistea\Elearning\Domain\Repository\LessonRepository;
+use Aistea\Elearning\Service\CourseRatingService;
 use Aistea\Elearning\Service\FavoriteService;
 use Aistea\Elearning\Service\ProgressService;
 use TYPO3\CMS\Core\Error\Http\PageNotFoundException;
@@ -18,16 +19,19 @@ use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 class CourseController extends AbstractFrontendController
 {
     private FavoriteService $favoriteService;
+    private CourseRatingService $courseRatingService;
 
     public function __construct(
         private readonly CourseRepository $courseRepository,
         private readonly LessonRepository $lessonRepository,
         private readonly ProgressService $progressService,
         \TYPO3\CMS\Core\Context\Context $context,
-        ?FavoriteService $favoriteService = null
+        ?FavoriteService $favoriteService = null,
+        ?CourseRatingService $courseRatingService = null
     ) {
         parent::__construct($context);
         $this->favoriteService = $favoriteService ?? GeneralUtility::makeInstance(FavoriteService::class);
+        $this->courseRatingService = $courseRatingService ?? GeneralUtility::makeInstance(CourseRatingService::class);
     }
 
     public function listAction(): \Psr\Http\Message\ResponseInterface
@@ -162,12 +166,26 @@ class CourseController extends AbstractFrontendController
         $total = count($lessonUids);
         $completed = count($completedLessonUids);
         $percent = $total > 0 ? (int)round(($completed / $total) * 100) : 0;
+        $ratingSummary = $this->courseRatingService->getCourseRatingSummary($course->getUid());
+        $averageRounded = 0;
+        if (($ratingSummary['count'] ?? 0) > 0) {
+            $averageRounded = (int)round((float)($ratingSummary['average'] ?? 0));
+            $averageRounded = max(1, min(5, $averageRounded));
+        }
+
+        $userRating = $this->courseRatingService->getUserRating($feUserId, $course->getUid());
+        $displayRating = $userRating > 0 ? $userRating : $averageRounded;
+
         $this->view->assignMultiple([
             'course' => $course,
             'lessons' => $lessons,
             'lessonPid' => $this->getConfiguredPid('lessonPid'),
             'firstLesson' => $firstLesson,
             'isFavorite' => $this->favoriteService->isFavorite($feUserId, $course->getUid()),
+            'ratingSummary' => $ratingSummary,
+            'userRating' => $userRating,
+            'averageRatingRounded' => $averageRounded,
+            'displayRating' => $displayRating,
             'courseProgress' => [
                 'total' => $total,
                 'completed' => $completed,
@@ -186,6 +204,27 @@ class CourseController extends AbstractFrontendController
 
         $feUserId = $this->getFrontendUserId();
         $this->favoriteService->toggleFavorite($feUserId, $course->getUid());
+
+        $referer = $this->request->getHeader('referer')[0] ?? '';
+        if ($referer !== '') {
+            return $this->redirectToUri($referer);
+        }
+
+        $pageUid = $this->getConfiguredPid('courseDetailPid');
+        return $this->redirect('show', 'Course', null, ['course' => $course], $pageUid);
+    }
+
+    public function rateAction(Course $course, int $rating = 0): \Psr\Http\Message\ResponseInterface
+    {
+        if (!$course->isPublished()) {
+            throw new PageNotFoundException($this->translate('errors.course_not_published'), 1738563943);
+        }
+
+        $rating = max(1, min(5, $rating));
+        $feUserId = $this->getFrontendUserId();
+        if ($feUserId > 0) {
+            $this->courseRatingService->setRating($feUserId, $course->getUid(), $rating, $course->getPid());
+        }
 
         $referer = $this->request->getHeader('referer')[0] ?? '';
         if ($referer !== '') {

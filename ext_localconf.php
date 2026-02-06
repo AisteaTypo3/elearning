@@ -7,6 +7,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use Aistea\Elearning\Controller\CourseController;
 use Aistea\Elearning\Controller\LessonController;
 use Aistea\Elearning\Controller\DashboardController;
@@ -28,10 +29,10 @@ ExtensionUtility::configurePlugin(
     'Elearning',
     'CourseDetail',
     [
-        CourseController::class => 'show,toggleFavorite',
+        CourseController::class => 'show,toggleFavorite,rate',
     ],
     [
-        CourseController::class => 'show,toggleFavorite',
+        CourseController::class => 'show,toggleFavorite,rate',
     ]
 );
 
@@ -60,6 +61,21 @@ ExtensionUtility::configurePlugin(
 ExtensionManagementUtility::addTypoScriptSetup(
     '@import "EXT:elearning/Configuration/TypoScript/setup.typoscript"'
 );
+
+$respectStoragePage = true;
+try {
+    $extConfig = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('elearning');
+    $value = $extConfig['respectStoragePage'] ?? '1';
+    $respectStoragePage = !in_array((string)$value, ['0', 'false', 'no', 'off'], true);
+} catch (\Throwable) {
+    $respectStoragePage = true;
+}
+
+if (!$respectStoragePage) {
+    ExtensionManagementUtility::addTypoScriptSetup(
+        'plugin.tx_elearning.persistence.respectStoragePage = 0'
+    );
+}
 
 $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
 $iconRegistry->registerIcon(

@@ -115,3 +115,19 @@ CREATE TABLE tx_elearning_course_favorite (
   UNIQUE KEY user_course (fe_user, course),
   KEY parent (pid)
 );
+
+CREATE TABLE tx_elearning_domain_model_course_rating (
+  uid int(11) unsigned NOT NULL auto_increment,
+  pid int(11) unsigned NOT NULL DEFAULT '0',
+  fe_user int(11) unsigned NOT NULL DEFAULT '0',
+  course int(11) unsigned NOT NULL DEFAULT '0',
+  rating tinyint(1) unsigned NOT NULL DEFAULT '0',
+  tstamp int(11) unsigned NOT NULL DEFAULT '0',
+  crdate int(11) unsigned NOT NULL DEFAULT '0',
+  cruser_id int(11) unsigned NOT NULL DEFAULT '0',
+  deleted tinyint(1) unsigned NOT NULL DEFAULT '0',
+  hidden tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (uid),
+  UNIQUE KEY user_course (fe_user, course),
+  KEY parent (pid)
+);
