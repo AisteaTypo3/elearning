@@ -1,0 +1,73 @@
+<div class="elearning-backend" xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+    <link rel="stylesheet" href="{f:uri.resource(path: 'Css/elearning-backend.css', extensionName: 'Elearning')}" />
+    <h1>Elearning Analytics</h1>
+
+    <form class="elearning-backend-filter" method="get">
+        <f:if condition="{pageId}">
+            <input type="hidden" name="id" value="{pageId}" />
+        </f:if>
+        <f:if condition="{moduleToken}">
+            <input type="hidden" name="token" value="{moduleToken}" />
+        </f:if>
+        <label>
+            From
+            <input type="date" name="from" value="{fromDate}" />
+        </label>
+        <label>
+            To
+            <input type="date" name="to" value="{toDate}" />
+        </label>
+        <button class="btn btn-default" type="submit">Apply</button>
+    </form>
+
+    <div class="elearning-backend-kpis">
+        <div class="elearning-backend-kpi">
+            <div class="elearning-backend-kpi__label">Published courses</div>
+            <div class="elearning-backend-kpi__value">{publishedCourses}</div>
+        </div>
+        <div class="elearning-backend-kpi">
+            <div class="elearning-backend-kpi__label">Active learners (30 days)</div>
+            <div class="elearning-backend-kpi__value">{activeLearners}</div>
+        </div>
+        <div class="elearning-backend-kpi">
+            <div class="elearning-backend-kpi__label">Completion rate</div>
+            <div class="elearning-backend-kpi__value">{completionRate}%</div>
+        </div>
+    </div>
+
+    <h2>Top courses by engagement</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Started users</th>
+                <th>Completed users</th>
+                <th>Avg rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            <f:if condition="{courseRows -> f:count()}">
+                <f:then>
+                    <f:for each="{courseRows}" as="row">
+                        <tr>
+                            <td>{row.title}</td>
+                            <td>{row.started_users}</td>
+                            <td>{row.completed_users}</td>
+                            <td>
+                                <f:if condition="{row.rating_avg}">
+                                    <f:then>{row.rating_avg -> f:format.number(decimals: 1)}</f:then>
+                                    <f:else>-</f:else>
+                                </f:if>
+                            </td>
+                        </tr>
+                    </f:for>
+                </f:then>
+                <f:else>
+                    <tr>
+                        <td colspan="4">No data yet.</td>
+                    </tr>
+                </f:else>
+            </f:if>
+        </tbody>
+    </table>
+</div>

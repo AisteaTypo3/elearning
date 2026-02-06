@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2">
+  <file source-language="en" datatype="plaintext" original="messages" date="2026-02-06T00:00:00Z">
+    <header/>
+    <body>
+      <trans-unit id="module.analytics">
+        <source>Elearning Analytics</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

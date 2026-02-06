@@ -12,6 +12,7 @@ Modern Extbase/Fluid extension for TYPO3 v13.4+ that provides a course catalog, 
 - Progress tracking per frontend user (completed, quiz status, last visited)
 - Favorites: mark courses as favorite and show on dashboard
 - Course ratings (1–5 stars, one vote per frontend user)
+- Backend analytics module (KPIs + top courses table with date filter)
 - Apple‑style UI theme + Netflix‑style course grid
 - Full i18n: EN + DE translations for all UI texts
 
@@ -50,6 +51,12 @@ composer require aistea/elearning:@dev
 4) Configure FlexForms:
    - Courses plugin: set **Course detail page** to the Course Detail page
    - Course Detail plugin: set **Lesson page** to the Lesson page
+
+## Backend Analytics
+Backend module: **Web → Elearning Analytics**
+- KPIs: published courses, active learners, completion rate
+- Table: top courses by engagement (started users, completed users, average rating)
+- Date range filter (From/To)
 
 ## Editor Guide
 - Create **Courses** and **Lessons** in the list module on a storage page.
@@ -94,6 +101,9 @@ If your default language is German, put German strings into `locallang.xlf` and 
 - Stylesheet: `EXT:elearning/Resources/Public/Css/elearning.css`
 - Auto‑included via TypoScript (`page.includeCSS.elearning`)
 - The theme is Apple‑style (light, clean, blue accents) with modern cards
+ 
+Backend module styling:
+- `EXT:elearning/Resources/Public/Css/elearning-backend.css` (loaded in the analytics module)
 
 ## Speaking URLs (Route Enhancers)
 Add these route enhancers in your site configuration (`config/sites/<site>/config.yaml`) to enable slugs:

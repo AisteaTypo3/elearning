@@ -1,0 +1,88 @@
+.elearning-backend {
+  padding: 1rem 1.25rem;
+}
+
+.elearning-backend-filter {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin: 0.5rem 0 1.5rem;
+  flex-wrap: wrap;
+}
+
+.elearning-backend-filter label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #5c6068;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.elearning-backend-filter input[type="date"] {
+  border: 1px solid #d6d9df;
+  border-radius: 8px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.95rem;
+}
+
+.elearning-backend-kpis {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  margin: 1rem 0 2rem;
+}
+
+.elearning-backend-kpi {
+  border: 1px solid #d6d9df;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(15, 17, 21, 0.08);
+}
+
+.elearning-backend-kpi__label {
+  font-size: 0.85rem;
+  color: #5c6068;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.elearning-backend-kpi__value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-top: 0.4rem;
+}
+
+.elearning-backend table.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 1px solid #d6d9df;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.elearning-backend table.table thead th {
+  text-align: left;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5c6068;
+  background: #f5f6f8;
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid #d6d9df;
+}
+
+.elearning-backend table.table tbody td {
+  padding: 0.8rem 0.85rem;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.elearning-backend table.table tbody tr:hover {
+  background: #f7f9fc;
+}
+
+.elearning-backend table.table tbody tr:last-child td {
+  border-bottom: none;
+}

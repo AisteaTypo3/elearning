@@ -653,6 +653,7 @@
   color: var(--elearning-accent);
 }
 
+
 .elearning .elearning-course-rating__stars:hover .elearning-star {
   background: rgba(15, 23, 42, 0.06);
   color: var(--elearning-muted);

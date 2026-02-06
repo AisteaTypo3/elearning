@@ -61,6 +61,9 @@ ExtensionUtility::configurePlugin(
 ExtensionManagementUtility::addTypoScriptSetup(
     '@import "EXT:elearning/Configuration/TypoScript/setup.typoscript"'
 );
+ExtensionManagementUtility::addTypoScriptSetup(
+    'module.tx_elearning_analytics.view.templateRootPaths.0 = EXT:elearning/Resources/Private/Backend/Templates/'
+);
 
 $respectStoragePage = true;
 try {
