@@ -243,6 +243,10 @@
         <source>%d ratings</source>
         <target>%d Bewertungen</target>
       </trans-unit>
+      <trans-unit id="rating.star_label">
+        <source>Rate %d stars</source>
+        <target>%d Sterne bewerten</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

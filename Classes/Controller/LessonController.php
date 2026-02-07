@@ -157,11 +157,18 @@ class LessonController extends AbstractFrontendController
             throw new PageNotFoundException($this->translate('errors.lesson_not_published'), 1738564059);
         }
 
+        if (strtoupper($this->request->getMethod()) !== 'POST') {
+            return new JsonResponse(['ok' => false, 'reason' => 'method_not_allowed'], 405);
+        }
+
         if ($lesson->getQuestions()->count() > 0) {
             return new JsonResponse(['ok' => false, 'reason' => 'quiz_required'], 409);
         }
 
         $feUserId = $this->getFrontendUserId();
+        if (!$this->canMarkVideoCompleted($lesson->getUid())) {
+            return new JsonResponse(['ok' => false, 'reason' => 'rate_limited'], 429);
+        }
         $this->progressService->markCompleted($feUserId, $lesson);
         $this->notifyProgressUpdate($feUserId, $lesson);
 
@@ -230,6 +237,24 @@ class LessonController extends AbstractFrontendController
 
         $courseProgress = $this->computeCourseProgress($feUserId, $lesson);
         $this->notificationService->sendLessonCompleted($feUserId, $lesson, $courseProgress, $settings);
+    }
+
+    private function canMarkVideoCompleted(int $lessonUid): bool
+    {
+        $feUser = $this->request->getAttribute('frontend.user');
+        if (!$feUser instanceof \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication) {
+            return true;
+        }
+
+        $key = 'elearning_video_completed_' . $lessonUid;
+        $last = (int)$feUser->getKey('ses', $key);
+        $now = time();
+        if ($last > 0 && ($now - $last) < 15) {
+            return false;
+        }
+        $feUser->setKey('ses', $key, (string)$now);
+        $feUser->storeSessionData();
+        return true;
     }
 
     private function computeCourseProgress(int $feUserId, Lesson $lesson): array

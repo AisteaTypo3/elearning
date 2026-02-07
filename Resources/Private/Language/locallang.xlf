@@ -183,6 +183,9 @@
       <trans-unit id="rating.count">
         <source>%d ratings</source>
       </trans-unit>
+      <trans-unit id="rating.star_label">
+        <source>Rate %d stars</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

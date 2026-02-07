@@ -590,6 +590,14 @@
   color: var(--elearning-accent);
 }
 
+.elearning .elearning-button:focus-visible,
+.elearning .elearning-favorite:focus-visible,
+.elearning .elearning-star:focus-visible,
+.elearning .elearning-topnav__link:focus-visible {
+  outline: 3px solid var(--elearning-accent);
+  outline-offset: 2px;
+}
+
 .elearning .elearning-course-hero-actions {
   margin: -0.35rem 0 1rem;
   display: flex;

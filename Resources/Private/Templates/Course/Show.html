@@ -11,7 +11,7 @@
         <h1>{course.title}</h1>
         <div class="elearning-course-hero-actions">
             <f:form action="toggleFavorite" controller="Course" pluginName="CourseDetail" pageUid="{courseDetailPid}" arguments="{course: course}" method="post">
-                <f:form.button class="elearning-favorite {f:if(condition: isFavorite, then: 'is-active', else: '')}" title="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}" aria-label="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}">
+                <f:form.button class="elearning-favorite {f:if(condition: isFavorite, then: 'is-active', else: '')}" title="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}" aria-label="{f:translate(key: 'button.favorite', extensionName: 'Elearning')}" aria-pressed="{f:if(condition: isFavorite, then: 'true', else: 'false')}">
                     ♥
                 </f:form.button>
             </f:form>
@@ -31,7 +31,9 @@
                                 <f:form.button
                                     name="rating"
                                     value="{star}"
-                                    class="elearning-star is-active">
+                                    class="elearning-star is-active"
+                                    aria-pressed="{f:if(condition: userRating >= star, then: 'true', else: 'false')}"
+                                    aria-label="{f:translate(key: 'rating.star_label', arguments: {0: star}, extensionName: 'Elearning')}">
                                     ★
                                 </f:form.button>
                             </f:then>
@@ -39,7 +41,9 @@
                                 <f:form.button
                                     name="rating"
                                     value="{star}"
-                                    class="elearning-star">
+                                    class="elearning-star"
+                                    aria-pressed="{f:if(condition: userRating >= star, then: 'true', else: 'false')}"
+                                    aria-label="{f:translate(key: 'rating.star_label', arguments: {0: star}, extensionName: 'Elearning')}">
                                     ★
                                 </f:form.button>
                             </f:else>

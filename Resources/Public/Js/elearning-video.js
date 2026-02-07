@@ -49,12 +49,26 @@
     if (sent.has(el)) {
       return;
     }
-    const url = el.dataset.completeUrl;
+    const formId = el.dataset.completeFormId;
+    if (!formId) {
+      return;
+    }
+    const form = document.getElementById(formId);
+    if (!form) {
+      return;
+    }
+    const url = form.action;
     if (!url) {
       return;
     }
     sent.add(el);
-    fetch(url, { credentials: "same-origin", headers: { Accept: "application/json" } })
+    const body = new FormData(form);
+    fetch(url, {
+      method: "POST",
+      body,
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    })
       .then((response) => {
         if (response.ok) {
           updateCompletionUi();
