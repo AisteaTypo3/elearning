@@ -27,6 +27,33 @@
     }, 2600);
   };
 
+  const dismissMessage = (message) => {
+    if (!message) {
+      return;
+    }
+    if (message.classList.contains("is-dismissed")) {
+      return;
+    }
+    message.classList.add("is-dismissed");
+    window.setTimeout(() => {
+      message.remove();
+    }, 220);
+  };
+
+  const initFlashMessages = () => {
+    const messages = Array.from(document.querySelectorAll(".elearning-message"));
+    if (messages.length === 0) {
+      return;
+    }
+    messages.forEach((message) => {
+      const close = message.querySelector(".elearning-message__close");
+      if (close) {
+        close.addEventListener("click", () => dismissMessage(message));
+      }
+      window.setTimeout(() => dismissMessage(message), 5200);
+    });
+  };
+
   const updateCompletionUi = () => {
     const container = document.querySelector(".elearning-lesson-completion");
     if (!container) {
@@ -156,6 +183,7 @@
     });
 
   const init = async () => {
+    initFlashMessages();
     const videos = Array.from(document.querySelectorAll(".elearning-video"));
     if (videos.length === 0) {
       return;

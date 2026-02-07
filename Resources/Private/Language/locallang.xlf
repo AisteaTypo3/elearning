@@ -147,11 +147,23 @@
       <trans-unit id="messages.lesson_completed">
         <source>Lesson completed.</source>
       </trans-unit>
+      <trans-unit id="messages.lesson_locked">
+        <source>Please complete the previous lesson to unlock this one.</source>
+      </trans-unit>
       <trans-unit id="messages.preview_title">
         <source>Preview mode</source>
       </trans-unit>
       <trans-unit id="messages.preview_hint">
         <source>Progress and favorites may appear empty because no frontend user is logged in. Open the real frontend and log in.</source>
+      </trans-unit>
+      <trans-unit id="messages.close">
+        <source>Close message</source>
+      </trans-unit>
+      <trans-unit id="lesson.locked_hint">
+        <source>Complete the previous lesson to unlock.</source>
+      </trans-unit>
+      <trans-unit id="lesson.locked_button">
+        <source>Locked</source>
       </trans-unit>
       <trans-unit id="email.subject.lesson_completed">
         <source>Lesson completed: %s</source>

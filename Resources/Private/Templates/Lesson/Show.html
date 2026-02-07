@@ -135,7 +135,7 @@
                             &larr; <f:translate key="nav.previous" extensionName="Elearning" />
                         </f:link.action>
                     </f:if>
-                    <f:if condition="{nextLesson}">
+                    <f:if condition="{showNextLesson}">
                         <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: nextLesson}" class="elearning-button">
                             <f:translate key="nav.next" extensionName="Elearning" /> &rarr;
                         </f:link.action>
@@ -157,10 +157,17 @@
                     <h3><f:translate key="lesson.list_title" extensionName="Elearning" /></h3>
                     <ol>
                         <f:for each="{lessonList}" as="item">
-                            <li class="{f:if(condition: {item.uid} == {lesson.uid}, then: 'is-active', else: '')} {f:if(condition: {f:contains(subject: completedLessonUids, value: item.uid)}, then: 'is-done', else: '')}">
-                                <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: item}">
-                                    {item.title}
-                                </f:link.action>
+                            <li class="{f:if(condition: {item.uid} == {lesson.uid}, then: 'is-active', else: '')} {f:if(condition: {f:contains(subject: completedLessonUids, value: item.uid)}, then: 'is-done', else: '')} {f:if(condition: {lessonAccess.{item.uid}}, then: '', else: 'is-locked')}">
+                                <f:if condition="{lessonAccess.{item.uid}}">
+                                    <f:then>
+                                        <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: item}">
+                                            {item.title}
+                                        </f:link.action>
+                                    </f:then>
+                                    <f:else>
+                                        <span class="elearning-lesson-locked">{item.title}</span>
+                                    </f:else>
+                                </f:if>
                             </li>
                         </f:for>
                     </ol>

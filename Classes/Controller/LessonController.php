@@ -29,18 +29,24 @@ class LessonController extends AbstractFrontendController
             throw new PageNotFoundException($this->translate('errors.lesson_not_published'), 1738564032);
         }
 
+        $course = $lesson->getCourse();
         $feUserId = $this->getFrontendUserId();
+        $guarded = $this->guardLessonAccess($lesson, $course, $feUserId);
+        if ($guarded !== null) {
+            return $guarded;
+        }
+
         $progress = $this->progressService->recordVisit($feUserId, $lesson);
         $hasQuiz = $lesson->getQuestions()->count() > 0;
         $quizPassed = $progress->isQuizPassed();
         $isCompleted = $hasQuiz ? $quizPassed : $progress->isCompleted();
         $showMarkComplete = !$hasQuiz && !$progress->isCompleted();
 
-        $course = $lesson->getCourse();
         $nextLesson = null;
         $previousLesson = null;
         $lessonList = [];
         $completedLessonUids = [];
+        $lessonAccess = [];
         $courseProgress = [
             'total' => 0,
             'completed' => 0,
@@ -68,6 +74,15 @@ class LessonController extends AbstractFrontendController
                 $lessonUids[] = $item->getUid();
             }
             $completedLessonUids = $this->progressService->getCompletedLessonUids($feUserId, $lessonUids);
+            $previousCompleted = true;
+            foreach ($lessonList as $item) {
+                if ($feUserId <= 0) {
+                    $lessonAccess[$item->getUid()] = true;
+                    continue;
+                }
+                $lessonAccess[$item->getUid()] = $previousCompleted;
+                $previousCompleted = in_array($item->getUid(), $completedLessonUids, true);
+            }
             $total = count($lessonUids);
             $completed = count($completedLessonUids);
             $courseProgress = [
@@ -81,6 +96,7 @@ class LessonController extends AbstractFrontendController
             'lesson' => $lesson,
             'progress' => $progress,
             'nextLesson' => $nextLesson,
+            'showNextLesson' => $nextLesson !== null && $isCompleted,
             'previousLesson' => $previousLesson,
             'lessonPid' => $this->getConfiguredPid('lessonPid'),
             'videoEmbedUrl' => $this->buildVideoEmbedUrl($lesson->getVideoUrl()),
@@ -92,6 +108,7 @@ class LessonController extends AbstractFrontendController
             'course' => $course,
             'lessonList' => $lessonList,
             'completedLessonUids' => $completedLessonUids,
+            'lessonAccess' => $lessonAccess,
             'courseProgress' => $courseProgress,
             'videoCompletionThreshold' => $this->getVideoCompletionThreshold(),
         ]);
@@ -105,13 +122,19 @@ class LessonController extends AbstractFrontendController
             throw new PageNotFoundException($this->translate('errors.lesson_not_published'), 1738564039);
         }
 
+        $course = $lesson->getCourse();
+        $feUserId = $this->getFrontendUserId();
+        $guarded = $this->guardLessonAccess($lesson, $course, $feUserId);
+        if ($guarded !== null) {
+            return $guarded;
+        }
+
         if ($lesson->getQuestions()->count() > 0) {
             $this->addFlashMessage($this->translate('messages.quiz_required'), '', \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING);
             $pageUid = $this->getConfiguredPid('lessonPid');
             return $this->redirect('show', 'Lesson', null, ['lesson' => $lesson], $pageUid);
         }
 
-        $feUserId = $this->getFrontendUserId();
         $this->progressService->markCompleted($feUserId, $lesson);
         $this->notifyProgressUpdate($feUserId, $lesson);
 
@@ -126,6 +149,12 @@ class LessonController extends AbstractFrontendController
         }
 
         $feUserId = $this->getFrontendUserId();
+        $course = $lesson->getCourse();
+        $guarded = $this->guardLessonAccess($lesson, $course, $feUserId);
+        if ($guarded !== null) {
+            return $guarded;
+        }
+
         $progress = $this->progressService->getProgressForLesson($feUserId, $lesson);
         if ($progress !== null) {
             $lastFailedAt = $progress->getLastQuizFailedAt();
@@ -161,11 +190,17 @@ class LessonController extends AbstractFrontendController
             return new JsonResponse(['ok' => false, 'reason' => 'method_not_allowed'], 405);
         }
 
+        $feUserId = $this->getFrontendUserId();
+        $course = $lesson->getCourse();
+        $guarded = $this->guardLessonAccess($lesson, $course, $feUserId);
+        if ($guarded !== null) {
+            return $guarded;
+        }
+
         if ($lesson->getQuestions()->count() > 0) {
             return new JsonResponse(['ok' => false, 'reason' => 'quiz_required'], 409);
         }
 
-        $feUserId = $this->getFrontendUserId();
         if (!$this->canMarkVideoCompleted($lesson->getUid())) {
             return new JsonResponse(['ok' => false, 'reason' => 'rate_limited'], 429);
         }
@@ -282,6 +317,27 @@ class LessonController extends AbstractFrontendController
             'completed' => $completed,
             'percent' => $total > 0 ? (int)round(($completed / $total) * 100) : 0,
         ];
+    }
+
+    private function guardLessonAccess(Lesson $lesson, ?\Aistea\Elearning\Domain\Model\Course $course, int $feUserId): ?\Psr\Http\Message\ResponseInterface
+    {
+        if ($course === null || $feUserId <= 0) {
+            return null;
+        }
+
+        $previousLesson = $this->lessonRepository->findPreviousLesson($course, $lesson);
+        if ($previousLesson === null) {
+            return null;
+        }
+
+        $previousProgress = $this->progressService->getProgressForLesson($feUserId, $previousLesson);
+        if ($previousProgress !== null && $previousProgress->isCompleted()) {
+            return null;
+        }
+
+        $this->addFlashMessage($this->translate('messages.lesson_locked'), '', \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING);
+        $pageUid = $this->getConfiguredPid('lessonPid');
+        return $this->redirect('show', 'Lesson', null, ['lesson' => $previousLesson], $pageUid);
     }
 
     private function getVideoCompletionThreshold(): float

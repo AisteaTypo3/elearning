@@ -81,8 +81,8 @@
             <div class="elearning-progress">
                 <span style="width: {courseProgress.percent}%"></span>
             </div>
-            <f:if condition="{firstLesson}">
-                <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: firstLesson}" class="elearning-button">
+            <f:if condition="{startLesson}">
+                <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: startLesson}" class="elearning-button">
                     <f:translate key="button.start_course" extensionName="Elearning" />
                 </f:link.action>
             </f:if>
@@ -92,23 +92,42 @@
         <f:if condition="{lessons -> f:count()}">
             <div class="elearning-lesson-grid">
                 <f:for each="{lessons}" as="lesson" iteration="iter">
-                    <article class="elearning-lesson-card">
+                    <article class="elearning-lesson-card {f:if(condition: {lessonAccess.{lesson.uid}}, then: '', else: 'is-locked')}">
                         <div class="elearning-lesson-index">
                             <f:translate key="label.lesson_index" arguments="{0: iter.cycle}" extensionName="Elearning" />
                         </div>
                         <h3>
-                            <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}">
-                                {lesson.title}
-                            </f:link.action>
+                            <f:if condition="{lessonAccess.{lesson.uid}}">
+                                <f:then>
+                                    <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}">
+                                        {lesson.title}
+                                    </f:link.action>
+                                </f:then>
+                                <f:else>
+                                    <span class="elearning-lesson-locked">{lesson.title}</span>
+                                </f:else>
+                            </f:if>
                         </h3>
                         <f:if condition="{lesson.durationMinutes}">
                             <div class="elearning-meta">
                                 <f:translate key="label.minutes" arguments="{0: lesson.durationMinutes}" extensionName="Elearning" />
                             </div>
                         </f:if>
-                        <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" class="elearning-button elearning-button--ghost">
-                            <f:translate key="button.open_lesson" extensionName="Elearning" />
-                        </f:link.action>
+                        <f:if condition="{lessonAccess.{lesson.uid}}">
+                            <f:then>
+                                <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" class="elearning-button elearning-button--ghost">
+                                    <f:translate key="button.open_lesson" extensionName="Elearning" />
+                                </f:link.action>
+                            </f:then>
+                            <f:else>
+                                <div class="elearning-lesson-locked-hint">
+                                    <f:translate key="lesson.locked_hint" extensionName="Elearning" />
+                                </div>
+                                <span class="elearning-button elearning-button--ghost is-disabled" aria-disabled="true">
+                                    <f:translate key="lesson.locked_button" extensionName="Elearning" />
+                                </span>
+                            </f:else>
+                        </f:if>
                     </article>
                 </f:for>
             </div>

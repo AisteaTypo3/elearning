@@ -156,6 +156,7 @@ class CourseController extends AbstractFrontendController
         $lessons = $this->lessonRepository->findPublishedByCourse($course);
         $lessonUids = [];
         $firstLesson = null;
+        $startLesson = null;
         foreach ($lessons as $lesson) {
             $lessonUids[] = $lesson->getUid();
             if ($firstLesson === null) {
@@ -163,6 +164,27 @@ class CourseController extends AbstractFrontendController
             }
         }
         $completedLessonUids = $this->progressService->getCompletedLessonUids($feUserId, $lessonUids);
+        $lessonAccess = [];
+        $previousCompleted = true;
+        foreach ($lessons as $lesson) {
+            if ($feUserId <= 0) {
+                $lessonAccess[$lesson->getUid()] = true;
+                continue;
+            }
+            $lessonAccess[$lesson->getUid()] = $previousCompleted;
+            $previousCompleted = in_array($lesson->getUid(), $completedLessonUids, true);
+        }
+        if ($firstLesson !== null) {
+            $startLesson = $firstLesson;
+            if ($feUserId > 0) {
+                foreach ($lessons as $lesson) {
+                    if (!in_array($lesson->getUid(), $completedLessonUids, true)) {
+                        $startLesson = $lesson;
+                        break;
+                    }
+                }
+            }
+        }
         $total = count($lessonUids);
         $completed = count($completedLessonUids);
         $percent = $total > 0 ? (int)round(($completed / $total) * 100) : 0;
@@ -181,6 +203,8 @@ class CourseController extends AbstractFrontendController
             'lessons' => $lessons,
             'lessonPid' => $this->getConfiguredPid('lessonPid'),
             'firstLesson' => $firstLesson,
+            'startLesson' => $startLesson,
+            'lessonAccess' => $lessonAccess,
             'isFavorite' => $this->favoriteService->isFavorite($feUserId, $course->getUid()),
             'ratingSummary' => $ratingSummary,
             'userRating' => $userRating,
