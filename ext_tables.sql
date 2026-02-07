@@ -99,6 +99,7 @@ CREATE TABLE tx_elearning_domain_model_progress (
   deleted tinyint(1) unsigned NOT NULL DEFAULT '0',
   hidden tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (uid),
+  UNIQUE KEY user_lesson (fe_user, lesson),
   KEY parent (pid)
 );
 

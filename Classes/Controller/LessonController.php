@@ -93,6 +93,7 @@ class LessonController extends AbstractFrontendController
             'lessonList' => $lessonList,
             'completedLessonUids' => $completedLessonUids,
             'courseProgress' => $courseProgress,
+            'videoCompletionThreshold' => $this->getVideoCompletionThreshold(),
         ]);
 
         return $this->htmlResponse();
@@ -256,5 +257,15 @@ class LessonController extends AbstractFrontendController
             'completed' => $completed,
             'percent' => $total > 0 ? (int)round(($completed / $total) * 100) : 0,
         ];
+    }
+
+    private function getVideoCompletionThreshold(): float
+    {
+        $value = $this->settings['videoCompletionThreshold'] ?? null;
+        $threshold = is_numeric($value) ? (float)$value : 0.85;
+        if ($threshold <= 0 || $threshold > 1) {
+            $threshold = 0.85;
+        }
+        return $threshold;
     }
 }

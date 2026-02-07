@@ -48,7 +48,21 @@ ExtensionManagementUtility::addPiFlexFormValue(
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['elearning_courses'] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['elearning_coursedetail'] = 'pi_flexform';
 
+// Keep plugin editing minimal: hide fields that are not used by these plugins.
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['elearning_courses'] =
+    'select_key, recursive, bodytext, subheader, layout';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['elearning_coursedetail'] =
+    'select_key, recursive, bodytext, subheader, layout';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['elearning_lesson'] =
+    'select_key, pages, recursive, bodytext, subheader, layout, pi_flexform';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['elearning_dashboard'] =
+    'select_key, pages, recursive, bodytext, subheader, layout, pi_flexform';
+
 ExtensionManagementUtility::addPageTSConfig(
     "TCEFORM.tt_content.pi_flexform.elearning_courses.sDEF.settings\\.courseDetailPid.disabled = 0\n" .
     "TCEFORM.tt_content.pi_flexform.elearning_coursedetail.sDEF.settings\\.lessonPid.disabled = 0\n"
+);
+
+ExtensionManagementUtility::addPageTSConfig(
+    "TCEFORM.tt_content.pages.description = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:tt_content.pages.storage_hint\n"
 );

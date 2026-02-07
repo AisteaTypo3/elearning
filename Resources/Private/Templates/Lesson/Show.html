@@ -24,7 +24,7 @@
                         <f:if condition="{lesson.file} && {lesson.file.originalResource} && {lesson.file.originalResource.mimeType}">
                             <f:if condition="{f:contains(subject: lesson.file.originalResource.mimeType, value: 'video/')}">
                                 <div class="elearning-video-frame">
-                                    <video width="100%" height="360" controls playsinline class="elearning-video" data-provider="html5" data-complete-url="{f:uri.action(action: 'markVideoCompleted', controller: 'Lesson', pluginName: 'Lesson', pageUid: lessonPid, arguments: {lesson: lesson})}">
+                                    <video width="100%" height="360" controls playsinline class="elearning-video" data-provider="html5" data-threshold="{videoCompletionThreshold}" data-complete-url="{f:uri.action(action: 'markVideoCompleted', controller: 'Lesson', pluginName: 'Lesson', pageUid: lessonPid, arguments: {lesson: lesson})}">
                                         <source src="{lesson.file.originalResource.publicUrl}" type="{lesson.file.originalResource.mimeType}" />
                                     </video>
                                 </div>
@@ -46,6 +46,7 @@
                                         allowfullscreen
                                         class="elearning-video"
                                         data-provider="{f:if(condition: '{videoEmbedUrl} -> f:contains(subject: \"vimeo\")', then: 'vimeo', else: 'youtube')}"
+                                        data-threshold="{videoCompletionThreshold}"
                                         data-complete-url="{f:uri.action(action: 'markVideoCompleted', controller: 'Lesson', pluginName: 'Lesson', pageUid: lessonPid, arguments: {lesson: lesson})}">
                                     </iframe>
                                 </div>

@@ -1,6 +1,18 @@
 (() => {
-  const threshold = 0.85;
   const sent = new WeakSet();
+  const defaultThreshold = 0.85;
+
+  const resolveThreshold = (el) => {
+    const raw = el?.dataset?.threshold;
+    if (!raw) {
+      return defaultThreshold;
+    }
+    const value = parseFloat(raw);
+    if (Number.isFinite(value) && value > 0 && value <= 1) {
+      return value;
+    }
+    return defaultThreshold;
+  };
 
   const showToast = (message) => {
     const toast = document.querySelector(".elearning-toast");
@@ -66,6 +78,7 @@
   };
 
   const initHtml5 = (video) => {
+    const threshold = resolveThreshold(video);
     const onTime = () => {
       if (!video.duration || Number.isNaN(video.duration)) {
         return;
@@ -79,6 +92,7 @@
   };
 
   const initYouTube = (iframe) => {
+    const threshold = resolveThreshold(iframe);
     if (!window.YT || !window.YT.Player) {
       return;
     }
@@ -104,6 +118,7 @@
   };
 
   const initVimeo = (iframe) => {
+    const threshold = resolveThreshold(iframe);
     if (!window.Vimeo || !window.Vimeo.Player) {
       return;
     }

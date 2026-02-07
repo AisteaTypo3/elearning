@@ -161,6 +161,9 @@
       <trans-unit id="tx_elearning_domain_model_course_rating.rating">
         <source>Rating</source>
       </trans-unit>
+      <trans-unit id="tt_content.pages.storage_hint">
+        <source>Storage PID: set this to the page where courses/lessons are stored (Starting Point).</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

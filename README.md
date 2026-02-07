@@ -96,6 +96,7 @@ If your default language is German, put German strings into `locallang.xlf` and 
 - In backend preview mode, progress and favorites may appear empty because no frontend user is logged in.
 - If your records live on a storage page, set the plugin “Starting Point” to that PID or configure `plugin.tx_elearning.persistence.storagePid`.
 - You can disable storage PID filtering globally in the extension configuration (`respectStoragePage = 0`).
+- Video auto-completion threshold can be configured via `plugin.tx_elearning.settings.videoCompletionThreshold` (0–1, default 0.85).
 
 ## Styling
 - Stylesheet: `EXT:elearning/Resources/Public/Css/elearning.css`

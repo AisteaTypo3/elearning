@@ -12,6 +12,7 @@ plugin.tx_elearning {
     courseDetailPid = 0
     lessonPid = 0
     logoutPid = 9
+    videoCompletionThreshold = 0.85
     notifications {
       enabled = 1
       progressOnLessonComplete = 1
