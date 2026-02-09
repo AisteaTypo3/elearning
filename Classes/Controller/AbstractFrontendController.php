@@ -6,8 +6,10 @@ namespace Aistea\Elearning\Controller;
 
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\SecurityAspect;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\ImmediateResponseException;
+use TYPO3\CMS\Core\Security\RequestToken;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\View\ViewInterface;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
@@ -123,6 +125,48 @@ abstract class AbstractFrontendController extends ActionController
     protected function translate(string $key, array $arguments = []): string
     {
         return (string)(LocalizationUtility::translate($key, 'Elearning', $arguments) ?? $key);
+    }
+
+    protected function requirePostRequest(): void
+    {
+        if (strtoupper((string)$this->request->getMethod()) === 'POST') {
+            return;
+        }
+
+        throw new ImmediateResponseException(new HtmlResponse('Method Not Allowed', 405));
+    }
+
+    protected function createRequestToken(string $scope): RequestToken
+    {
+        return RequestToken::create($scope);
+    }
+
+    protected function requireValidRequestToken(string $expectedScope): void
+    {
+        if ($this->isValidRequestToken($expectedScope)) {
+            return;
+        }
+
+        throw new ImmediateResponseException(new HtmlResponse('Invalid request', 403));
+    }
+
+    protected function isValidRequestToken(string $expectedScope): bool
+    {
+        $securityAspect = SecurityAspect::provideIn($this->context);
+        $requestToken = $securityAspect->getReceivedRequestToken();
+        if (!$requestToken instanceof RequestToken) {
+            return false;
+        }
+        if ($requestToken->scope !== $expectedScope) {
+            return false;
+        }
+
+        $signingSecretIdentifier = $requestToken->getSigningSecretIdentifier();
+        if ($signingSecretIdentifier !== null) {
+            $securityAspect->getSigningSecretResolver()->revokeIdentifier($signingSecretIdentifier);
+        }
+
+        return true;
     }
 
     protected function isSafeRedirectUri(string $uri): bool

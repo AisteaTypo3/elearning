@@ -14,6 +14,10 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 
 class LessonController extends AbstractFrontendController
 {
+    private const SCOPE_MARK_COMPLETE = 'elearning/lesson/mark-complete';
+    private const SCOPE_SUBMIT_QUIZ = 'elearning/lesson/submit-quiz';
+    private const SCOPE_MARK_VIDEO_COMPLETED = 'elearning/lesson/mark-video-completed';
+
     public function __construct(
         private readonly LessonRepository $lessonRepository,
         private readonly ProgressService $progressService,
@@ -111,6 +115,9 @@ class LessonController extends AbstractFrontendController
             'lessonAccess' => $lessonAccess,
             'courseProgress' => $courseProgress,
             'videoCompletionThreshold' => $this->getVideoCompletionThreshold(),
+            'requestTokenMarkComplete' => $this->createRequestToken(self::SCOPE_MARK_COMPLETE),
+            'requestTokenSubmitQuiz' => $this->createRequestToken(self::SCOPE_SUBMIT_QUIZ),
+            'requestTokenMarkVideoCompleted' => $this->createRequestToken(self::SCOPE_MARK_VIDEO_COMPLETED),
         ]);
 
         return $this->htmlResponse();
@@ -118,6 +125,9 @@ class LessonController extends AbstractFrontendController
 
     public function markCompleteAction(Lesson $lesson): \Psr\Http\Message\ResponseInterface
     {
+        $this->requirePostRequest();
+        $this->requireValidRequestToken(self::SCOPE_MARK_COMPLETE);
+
         if (!$lesson->isPublished()) {
             throw new PageNotFoundException($this->translate('errors.lesson_not_published'), 1738564039);
         }
@@ -144,6 +154,9 @@ class LessonController extends AbstractFrontendController
 
     public function submitQuizAction(Lesson $lesson, array $answers = []): \Psr\Http\Message\ResponseInterface
     {
+        $this->requirePostRequest();
+        $this->requireValidRequestToken(self::SCOPE_SUBMIT_QUIZ);
+
         if (!$lesson->isPublished()) {
             throw new PageNotFoundException($this->translate('errors.lesson_not_published'), 1738564049);
         }
@@ -188,6 +201,9 @@ class LessonController extends AbstractFrontendController
 
         if (strtoupper($this->request->getMethod()) !== 'POST') {
             return new JsonResponse(['ok' => false, 'reason' => 'method_not_allowed'], 405);
+        }
+        if (!$this->isValidRequestToken(self::SCOPE_MARK_VIDEO_COMPLETED)) {
+            return new JsonResponse(['ok' => false, 'reason' => 'invalid_request'], 403);
         }
 
         $feUserId = $this->getFrontendUserId();

@@ -18,6 +18,9 @@ use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 
 class CourseController extends AbstractFrontendController
 {
+    private const SCOPE_TOGGLE_FAVORITE = 'elearning/course/toggle-favorite';
+    private const SCOPE_RATE = 'elearning/course/rate';
+
     private FavoriteService $favoriteService;
     private CourseRatingService $courseRatingService;
 
@@ -86,6 +89,7 @@ class CourseController extends AbstractFrontendController
             'courseProgress' => $courseProgress,
             'favoriteMap' => $favoriteMap,
             'courseDetailPid' => $this->getConfiguredPid('courseDetailPid'),
+            'requestTokenToggleFavorite' => $this->createRequestToken(self::SCOPE_TOGGLE_FAVORITE),
         ]);
         return $this->htmlResponse();
     }
@@ -222,6 +226,8 @@ class CourseController extends AbstractFrontendController
                 'completed' => $completed,
                 'percent' => $percent,
             ],
+            'requestTokenToggleFavorite' => $this->createRequestToken(self::SCOPE_TOGGLE_FAVORITE),
+            'requestTokenRate' => $this->createRequestToken(self::SCOPE_RATE),
         ]);
 
         return $this->htmlResponse();
@@ -229,6 +235,9 @@ class CourseController extends AbstractFrontendController
 
     public function toggleFavoriteAction(Course $course): \Psr\Http\Message\ResponseInterface
     {
+        $this->requirePostRequest();
+        $this->requireValidRequestToken(self::SCOPE_TOGGLE_FAVORITE);
+
         if (!$course->isPublished()) {
             throw new PageNotFoundException($this->translate('errors.course_not_published'), 1738563942);
         }
@@ -247,6 +256,9 @@ class CourseController extends AbstractFrontendController
 
     public function rateAction(Course $course, int $rating = 0): \Psr\Http\Message\ResponseInterface
     {
+        $this->requirePostRequest();
+        $this->requireValidRequestToken(self::SCOPE_RATE);
+
         if (!$course->isPublished()) {
             throw new PageNotFoundException($this->translate('errors.course_not_published'), 1738563943);
         }

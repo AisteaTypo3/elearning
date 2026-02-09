@@ -31,11 +31,19 @@ class LessonRepository extends Repository
     public function findNextLesson(Course $course, Lesson $currentLesson): ?Lesson
     {
         $query = $this->createQuery();
+        $currentSorting = $currentLesson->getSorting();
+        $currentUid = $currentLesson->getUid();
         $query->matching(
             $query->logicalAnd(
                 $query->equals('course', $course->getUid()),
                 $query->equals('published', 1),
-                $query->greaterThan('sorting', $currentLesson->getSorting())
+                $query->logicalOr(
+                    $query->greaterThan('sorting', $currentSorting),
+                    $query->logicalAnd(
+                        $query->equals('sorting', $currentSorting),
+                        $query->greaterThan('uid', $currentUid)
+                    )
+                )
             )
         );
         $query->setOrderings([
@@ -49,11 +57,19 @@ class LessonRepository extends Repository
     public function findPreviousLesson(Course $course, Lesson $currentLesson): ?Lesson
     {
         $query = $this->createQuery();
+        $currentSorting = $currentLesson->getSorting();
+        $currentUid = $currentLesson->getUid();
         $query->matching(
             $query->logicalAnd(
                 $query->equals('course', $course->getUid()),
                 $query->equals('published', 1),
-                $query->lessThan('sorting', $currentLesson->getSorting())
+                $query->logicalOr(
+                    $query->lessThan('sorting', $currentSorting),
+                    $query->logicalAnd(
+                        $query->equals('sorting', $currentSorting),
+                        $query->lessThan('uid', $currentUid)
+                    )
+                )
             )
         );
         $query->setOrderings([

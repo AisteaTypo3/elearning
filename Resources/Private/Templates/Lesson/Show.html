@@ -21,7 +21,7 @@
                     </f:if>
 
                     <f:if condition="{lesson.type} == 'video'">
-                        <f:form action="markVideoCompleted" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" method="post" id="elearning-video-complete-{lesson.uid}" class="elearning-video-complete-form">
+                        <f:form action="markVideoCompleted" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" method="post" id="elearning-video-complete-{lesson.uid}" class="elearning-video-complete-form" requestToken="{requestTokenMarkVideoCompleted}">
                             <f:form.hidden name="lesson" value="{lesson.uid}" />
                         </f:form>
                         <f:if condition="{lesson.file} && {lesson.file.originalResource} && {lesson.file.originalResource.mimeType}">
@@ -87,7 +87,7 @@
                 <f:if condition="{hasQuiz} && !{quizPassed}">
                     <div class="elearning-card elearning-quiz-card">
                         <h2><f:translate key="quiz.title" extensionName="Elearning" /></h2>
-                        <f:form action="submitQuiz" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" method="post">
+                        <f:form action="submitQuiz" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" method="post" requestToken="{requestTokenSubmitQuiz}">
                             <f:for each="{lesson.questions}" as="question">
                                 <div class="elearning-quiz-question">
                                     <p><strong>{question.questionText}</strong></p>
@@ -117,7 +117,7 @@
                             <strong><f:translate key="lesson.completed_label" extensionName="Elearning" /></strong>
                         </p>
                         <div class="elearning-mark-complete {f:if(condition: showMarkComplete, then: '', else: 'is-hidden')}">
-                            <f:form action="markComplete" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" method="post">
+                        <f:form action="markComplete" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: lesson}" method="post" requestToken="{requestTokenMarkComplete}">
                                 <f:form.button class="elearning-button"><f:translate key="button.mark_completed" extensionName="Elearning" /></f:form.button>
                             </f:form>
                         </div>
