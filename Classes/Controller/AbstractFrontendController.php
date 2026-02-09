@@ -124,4 +124,43 @@ abstract class AbstractFrontendController extends ActionController
     {
         return (string)(LocalizationUtility::translate($key, 'Elearning', $arguments) ?? $key);
     }
+
+    protected function isSafeRedirectUri(string $uri): bool
+    {
+        $uri = trim($uri);
+        if ($uri === '') {
+            return false;
+        }
+        if (str_starts_with($uri, '/')) {
+            return true;
+        }
+
+        $parts = parse_url($uri);
+        if (!is_array($parts)) {
+            return false;
+        }
+
+        $host = strtolower((string)($parts['host'] ?? ''));
+        $scheme = strtolower((string)($parts['scheme'] ?? ''));
+        if ($host === '' || ($scheme !== '' && !in_array($scheme, ['http', 'https'], true))) {
+            return false;
+        }
+
+        $requestHost = '';
+        $requestScheme = '';
+        if (method_exists($this->request, 'getUri')) {
+            $requestUri = $this->request->getUri();
+            $requestHost = strtolower((string)$requestUri->getHost());
+            $requestScheme = strtolower((string)$requestUri->getScheme());
+        }
+
+        if ($requestHost !== '' && $host !== $requestHost) {
+            return false;
+        }
+        if ($requestScheme !== '' && $scheme !== '' && $scheme !== $requestScheme) {
+            return false;
+        }
+
+        return true;
+    }
 }

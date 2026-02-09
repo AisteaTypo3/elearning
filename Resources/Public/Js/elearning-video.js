@@ -143,10 +143,15 @@
           if (event.data !== window.YT.PlayerState.PLAYING) {
             return;
           }
+          let completed = false;
           const tick = () => {
+            if (completed) {
+              return;
+            }
             const duration = player.getDuration();
             if (duration > 0 && player.getCurrentTime() / duration >= threshold) {
               sendComplete(iframe);
+              completed = true;
             } else {
               window.requestAnimationFrame(tick);
             }

@@ -74,9 +74,7 @@ final class FavoriteService
             ->from('tx_elearning_course_favorite')
             ->where(
                 $queryBuilder->expr()->eq('fe_user', $queryBuilder->createNamedParameter($feUserId)),
-                $queryBuilder->expr()->eq('course', $queryBuilder->createNamedParameter($courseId)),
-                $queryBuilder->expr()->eq('deleted', 0),
-                $queryBuilder->expr()->eq('hidden', 0)
+                $queryBuilder->expr()->eq('course', $queryBuilder->createNamedParameter($courseId))
             )
             ->setMaxResults(1)
             ->executeQuery()

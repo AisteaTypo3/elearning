@@ -50,7 +50,6 @@ final class CourseRatingService
             ->getQueryBuilderForTable('tx_elearning_domain_model_course_rating');
 
         $row = $queryBuilder
-            ->select('rating')
             ->addSelectLiteral('COUNT(uid) AS rating_count')
             ->addSelectLiteral('AVG(rating) AS rating_avg')
             ->from('tx_elearning_domain_model_course_rating')
@@ -86,9 +85,7 @@ final class CourseRatingService
             ->from('tx_elearning_domain_model_course_rating')
             ->where(
                 $queryBuilder->expr()->eq('fe_user', $queryBuilder->createNamedParameter($feUserId)),
-                $queryBuilder->expr()->eq('course', $queryBuilder->createNamedParameter($courseId)),
-                $queryBuilder->expr()->eq('deleted', 0),
-                $queryBuilder->expr()->eq('hidden', 0)
+                $queryBuilder->expr()->eq('course', $queryBuilder->createNamedParameter($courseId))
             )
             ->setMaxResults(1)
             ->executeQuery()
@@ -98,7 +95,12 @@ final class CourseRatingService
         if ($existing) {
             $connection->update(
                 'tx_elearning_domain_model_course_rating',
-                ['rating' => $rating, 'tstamp' => $now],
+                [
+                    'rating' => $rating,
+                    'tstamp' => $now,
+                    'deleted' => 0,
+                    'hidden' => 0,
+                ],
                 ['uid' => (int)$existing]
             );
             return;

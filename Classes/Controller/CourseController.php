@@ -54,7 +54,8 @@ class CourseController extends AbstractFrontendController
         $prevPage = $currentPage > 1 ? $currentPage - 1 : null;
         $nextPage = $currentPage < $numberOfPages ? $currentPage + 1 : null;
         $courseProgress = [];
-        foreach ($paginator->getPaginatedItems() as $course) {
+        $paginatedCourses = $paginator->getPaginatedItems();
+        foreach ($paginatedCourses as $course) {
             $lessons = $this->lessonRepository->findPublishedByCourse($course);
             $lessonUids = [];
             foreach ($lessons as $lesson) {
@@ -74,7 +75,7 @@ class CourseController extends AbstractFrontendController
         $favoriteMap = array_fill_keys($favoriteCourseUids, true);
 
         $this->view->assignMultiple([
-            'courses' => $paginator->getPaginatedItems(),
+            'courses' => $paginatedCourses,
             'pagination' => $pagination,
             'paginator' => $paginator,
             'currentPage' => $currentPage,
@@ -91,6 +92,7 @@ class CourseController extends AbstractFrontendController
 
     private function fetchCategories(int $selectedCategoryId): array
     {
+        $now = time();
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_category');
         $queryBuilder->select('c.uid', 'c.title')
             ->from('sys_category', 'c')
@@ -102,6 +104,11 @@ class CourseController extends AbstractFrontendController
                 $queryBuilder->expr()->eq('course.published', $queryBuilder->createNamedParameter(1)),
                 $queryBuilder->expr()->eq('course.deleted', $queryBuilder->createNamedParameter(0)),
                 $queryBuilder->expr()->eq('course.hidden', $queryBuilder->createNamedParameter(0)),
+                $queryBuilder->expr()->lte('course.starttime', $queryBuilder->createNamedParameter($now)),
+                $queryBuilder->expr()->or(
+                    $queryBuilder->expr()->eq('course.endtime', $queryBuilder->createNamedParameter(0)),
+                    $queryBuilder->expr()->gt('course.endtime', $queryBuilder->createNamedParameter($now))
+                ),
                 $queryBuilder->expr()->eq('c.deleted', 0),
                 $queryBuilder->expr()->eq('c.hidden', 0)
             )
@@ -230,7 +237,7 @@ class CourseController extends AbstractFrontendController
         $this->favoriteService->toggleFavorite($feUserId, $course->getUid());
 
         $referer = $this->request->getHeader('referer')[0] ?? '';
-        if ($referer !== '') {
+        if ($this->isSafeRedirectUri($referer)) {
             return $this->redirectToUri($referer);
         }
 
@@ -251,7 +258,7 @@ class CourseController extends AbstractFrontendController
         }
 
         $referer = $this->request->getHeader('referer')[0] ?? '';
-        if ($referer !== '') {
+        if ($this->isSafeRedirectUri($referer)) {
             return $this->redirectToUri($referer);
         }
 

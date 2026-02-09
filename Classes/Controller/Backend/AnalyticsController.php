@@ -36,6 +36,7 @@ final class AnalyticsController extends ActionController
         $toTs = $toDate->setTime(23, 59, 59)->getTimestamp();
 
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $now = time();
 
         $courseQuery = $connectionPool->getQueryBuilderForTable('tx_elearning_domain_model_course');
         $publishedCourses = (int)$courseQuery
@@ -44,7 +45,12 @@ final class AnalyticsController extends ActionController
             ->where(
                 $courseQuery->expr()->eq('published', 1),
                 $courseQuery->expr()->eq('deleted', 0),
-                $courseQuery->expr()->eq('hidden', 0)
+                $courseQuery->expr()->eq('hidden', 0),
+                $courseQuery->expr()->lte('starttime', $courseQuery->createNamedParameter($now)),
+                $courseQuery->expr()->or(
+                    $courseQuery->expr()->eq('endtime', $courseQuery->createNamedParameter(0)),
+                    $courseQuery->expr()->gt('endtime', $courseQuery->createNamedParameter($now))
+                )
             )
             ->executeQuery()
             ->fetchOne();
@@ -124,7 +130,12 @@ final class AnalyticsController extends ActionController
             ->where(
                 $tableQuery->expr()->eq('c.published', 1),
                 $tableQuery->expr()->eq('c.deleted', 0),
-                $tableQuery->expr()->eq('c.hidden', 0)
+                $tableQuery->expr()->eq('c.hidden', 0),
+                $tableQuery->expr()->lte('c.starttime', $tableQuery->createNamedParameter($now)),
+                $tableQuery->expr()->or(
+                    $tableQuery->expr()->eq('c.endtime', $tableQuery->createNamedParameter(0)),
+                    $tableQuery->expr()->gt('c.endtime', $tableQuery->createNamedParameter($now))
+                )
             )
             ->groupBy('c.uid', 'c.title')
             ->orderBy('started_users', 'DESC')

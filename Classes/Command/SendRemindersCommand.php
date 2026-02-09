@@ -39,6 +39,7 @@ final class SendRemindersCommand extends Command
         $limit = max(0, (int)$input->getOption('limit'));
         $dryRun = (bool)$input->getOption('dry-run');
         $threshold = (new \DateTimeImmutable(sprintf('-%d days', $days)))->getTimestamp();
+        $now = time();
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_elearning_domain_model_progress');
         $queryBuilder
@@ -67,9 +68,19 @@ final class SendRemindersCommand extends Command
                 $queryBuilder->expr()->eq('l.published', 1),
                 $queryBuilder->expr()->eq('l.deleted', 0),
                 $queryBuilder->expr()->eq('l.hidden', 0),
+                $queryBuilder->expr()->lte('l.starttime', $queryBuilder->createNamedParameter($now)),
+                $queryBuilder->expr()->or(
+                    $queryBuilder->expr()->eq('l.endtime', $queryBuilder->createNamedParameter(0)),
+                    $queryBuilder->expr()->gt('l.endtime', $queryBuilder->createNamedParameter($now))
+                ),
                 $queryBuilder->expr()->eq('c.published', 1),
                 $queryBuilder->expr()->eq('c.deleted', 0),
-                $queryBuilder->expr()->eq('c.hidden', 0)
+                $queryBuilder->expr()->eq('c.hidden', 0),
+                $queryBuilder->expr()->lte('c.starttime', $queryBuilder->createNamedParameter($now)),
+                $queryBuilder->expr()->or(
+                    $queryBuilder->expr()->eq('c.endtime', $queryBuilder->createNamedParameter(0)),
+                    $queryBuilder->expr()->gt('c.endtime', $queryBuilder->createNamedParameter($now))
+                )
             )
             ->groupBy('u.uid', 'u.email', 'u.first_name', 'u.last_name', 'u.name', 'u.username')
             ->orderBy('pending_count', 'DESC');

@@ -7,6 +7,8 @@ namespace Aistea\Elearning\Service;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Mail\MailMessage;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -96,9 +98,17 @@ final class NotificationService
         if (is_string($htmlBody) && trim($htmlBody) !== '') {
             $message->html($htmlBody);
         }
-        $message->send();
-
-        return true;
+        try {
+            $message->send();
+            return true;
+        } catch (\Throwable $e) {
+            $this->getLogger()->error('Elearning mail send failed', [
+                'email' => $email,
+                'subject' => $subject,
+                'exception' => $e,
+            ]);
+            return false;
+        }
     }
 
     private function getFromAddress(array $settings): ?Address
@@ -206,5 +216,10 @@ final class NotificationService
         } catch (\Throwable) {
             return null;
         }
+    }
+
+    private function getLogger(): Logger
+    {
+        return GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 }
