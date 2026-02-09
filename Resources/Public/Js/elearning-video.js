@@ -62,11 +62,15 @@
     container.dataset.completed = "1";
     const label = container.querySelector(".elearning-completed-label");
     const buttonWrap = container.querySelector(".elearning-mark-complete");
+    const nextButton = document.querySelector(".elearning-next-button");
     if (label) {
       label.classList.remove("is-hidden");
     }
     if (buttonWrap) {
       buttonWrap.classList.add("is-hidden");
+    }
+    if (nextButton) {
+      nextButton.classList.remove("is-hidden");
     }
     const message = container.dataset.toastMessage;
     showToast(message);

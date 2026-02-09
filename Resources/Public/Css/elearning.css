@@ -120,7 +120,7 @@
 }
 
 .elearning .is-hidden {
-  display: none;
+  display: none !important;
 }
 
 .elearning iframe {

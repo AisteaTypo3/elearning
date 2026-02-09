@@ -135,8 +135,8 @@
                             &larr; <f:translate key="nav.previous" extensionName="Elearning" />
                         </f:link.action>
                     </f:if>
-                    <f:if condition="{showNextLesson}">
-                        <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: nextLesson}" class="elearning-button">
+                    <f:if condition="{nextLesson}">
+                        <f:link.action action="show" controller="Lesson" pluginName="Lesson" pageUid="{lessonPid}" arguments="{lesson: nextLesson}" class="elearning-button elearning-next-button {f:if(condition: showNextLesson, then: '', else: 'is-hidden')}">
                             <f:translate key="nav.next" extensionName="Elearning" /> &rarr;
                         </f:link.action>
                     </f:if>

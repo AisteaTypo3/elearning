@@ -71,6 +71,9 @@ class LessonController extends AbstractFrontendController
             if ($currentIndex !== null) {
                 $previousLesson = $lessonList[$currentIndex - 1] ?? null;
                 $nextLesson = $lessonList[$currentIndex + 1] ?? null;
+            } else {
+                $previousLesson = $this->lessonRepository->findPreviousLesson($course, $lesson);
+                $nextLesson = $this->lessonRepository->findNextLesson($course, $lesson);
             }
 
             $lessonUids = [];
