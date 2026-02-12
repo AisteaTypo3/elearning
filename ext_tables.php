@@ -62,7 +62,3 @@ ExtensionManagementUtility::addPageTSConfig(
     "TCEFORM.tt_content.pi_flexform.elearning_courses.sDEF.settings\\.courseDetailPid.disabled = 0\n" .
     "TCEFORM.tt_content.pi_flexform.elearning_coursedetail.sDEF.settings\\.lessonPid.disabled = 0\n"
 );
-
-ExtensionManagementUtility::addPageTSConfig(
-    "TCEFORM.tt_content.pages.description = LLL:EXT:elearning/Resources/Private/Language/locallang_db.xlf:tt_content.pages.storage_hint\n"
-);
