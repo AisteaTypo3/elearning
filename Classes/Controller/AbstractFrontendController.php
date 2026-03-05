@@ -51,12 +51,36 @@ abstract class AbstractFrontendController extends ActionController
 
     protected function getFrontendUserId(): int
     {
-        $aspect = $this->context->getAspect('frontend.user');
-        if (!$aspect->isLoggedIn()) {
-            return 0;
+        $userId = 0;
+
+        $feUser = $this->request->getAttribute('frontend.user');
+        if ($feUser instanceof FrontendUserAuthentication) {
+            $userId = (int)($feUser->user['uid'] ?? 0);
         }
 
-        $userId = (int)$aspect->get('id');
+        if ($userId <= 0) {
+            $aspect = $this->context->getAspect('frontend.user');
+            if (!$aspect->isLoggedIn()) {
+                return 0;
+            }
+
+            foreach (['id', 'uid'] as $property) {
+                try {
+                    $candidate = (int)$aspect->get($property);
+                } catch (\Throwable) {
+                    $candidate = 0;
+                }
+                if ($candidate > 0) {
+                    $userId = $candidate;
+                    break;
+                }
+            }
+        }
+
+        if ($userId <= 0 && isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) && isset($GLOBALS['TSFE']->fe_user)) {
+            $userId = (int)($GLOBALS['TSFE']->fe_user->user['uid'] ?? 0);
+        }
+
         if ($userId <= 0 || $userId > self::MAX_FE_USER_ID) {
             return 0;
         }
@@ -157,7 +181,10 @@ abstract class AbstractFrontendController extends ActionController
         if (!$requestToken instanceof RequestToken) {
             return false;
         }
-        if ($requestToken->scope !== $expectedScope) {
+        $actualScope = method_exists($requestToken, 'getScope')
+            ? (string)$requestToken->getScope()
+            : (string)($requestToken->scope ?? '');
+        if ($actualScope !== $expectedScope) {
             return false;
         }
 
